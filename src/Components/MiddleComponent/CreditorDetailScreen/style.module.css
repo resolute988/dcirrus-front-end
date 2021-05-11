@@ -1,0 +1,201 @@
+:root {
+  --filing-claims-bg-color: #2670b8;
+}
+.filingClaim {
+  font-size: 20px;
+  color: var(--filing-claims-bg-color);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  line-height: 1.2;
+}
+
+.formGroup {
+  margin-bottom: 30px;
+  font-size: 20px;
+}
+.labelColor {
+  color: #a8b0bc;
+}
+.radioLabelColor {
+  color: #6b6a6f;
+  display: flex !important;
+  align-items: initial;
+  margin: inherit;
+}
+.radioLabelColor label {
+  margin-left: 10px;
+  font-size: 14px;
+}
+input[type="radio"] {
+  transform: scale(1.5);
+  filter: grayscale(1.3);
+}
+label,
+input {
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+input {
+  border-radius: 15px !important;
+  font-size: 20px !important;
+}
+.nextButton {
+  padding: 6px 52px !important;
+  font-size: 20px !important;
+  border-radius: 30px !important;
+  background-color: rgb(38, 112, 184) !important;
+}
+
+/* now css for modal otop screen */
+.modalSecondRow {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  text-align: center;
+  font-size: 33px;
+  letter-spacing: 1px;
+  color: #3d3c40;
+}
+.modalThirdRow {
+  margin-bottom: 80px;
+}
+.modalFourthRow {
+  margin-bottom: 70px;
+}
+.modalSubmitButton {
+  font-size: 20px !important;
+  padding: 10px 45px !important;
+  border-radius: 30px !important;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+
+  border-color: transparent !important;
+}
+.modalBorderRadius {
+  border-radius: 30px !important;
+}
+.removeOtpBorder {
+  border-bottom: 1px solid #7e8d90;
+  margin: 10px;
+}
+.removeOtpBorder input:focus-visible {
+  outline: 0px;
+  outline-offset: 0px;
+}
+.removeOtpBorder:focus-visible {
+  outline: 0px;
+}
+.otpInputParent {
+  justify-content: center;
+  border: 1px solid #a8b0bc;
+  border-radius: 50px;
+
+  padding: 10px 0px;
+  margin: 0px 50px;
+}
+.inputStyle {
+  width: 3rem !important;
+  height: 40px;
+  border: none;
+}
+
+.error {
+  border: 2px solid red !important;
+  box-shadow: none !important;
+}
+@media only screen and (min-width: 100px) {
+  .radioLabelColor label {
+    font-size: 18px !important;
+  }
+}
+@media only screen and (max-width: 400px) {
+  .filingClaim {
+    font-size: 21px;
+  }
+  .formGroup {
+    font-size: 15px;
+  }
+  .modalSecondRow {
+    margin-top: 10%;
+    margin-bottom: 15%;
+    font-size: 19px;
+  }
+  .modalThirdRow {
+    margin-bottom: 20%;
+  }
+  .otpInputParent {
+    margin: 0px 20px;
+  }
+  .inputStyle {
+    width: 10vw !important;
+  }
+}
+@media only screen and (min-width: 400px) {
+  .filingClaim {
+    font-size: 30px;
+  }
+  .modalSecondRow {
+    font-size: 25px;
+  }
+}
+@media only screen and (min-width: 500px) {
+  .filingClaim {
+    font-size: 40px;
+  }
+  .radioLabelColor label {
+    font-size: 20px !important;
+  }
+  .modalSecondRow {
+    font-size: 35px;
+  }
+}
+@media only screen and (min-width: 600px) {
+  .filingClaim {
+    font-size: 43px;
+  }
+  .formGroup {
+    font-size: 18px;
+  }
+  label {
+    letter-spacing: 2px;
+  }
+}
+
+@media only screen and (min-width: 800px) {
+  .formGroup {
+    font-size: 19px;
+  }
+  label {
+    letter-spacing: 1px !important;
+  }
+
+  .modalSecondRow {
+    font-size: 42px;
+  }
+
+  .inputStyle {
+    width: 6vw !important;
+  }
+}
+@media only screen and (min-width: 900px) {
+  .inputStyle {
+    width: 5vw !important;
+  }
+  .modalSubmitButton {
+    font-size: 25px !important;
+    padding: 10px 60px !important;
+  }
+}
+@media only screen and (min-width: 1110px) {
+  .formGroup {
+    font-size: 17px;
+  }
+  .inputStyle {
+    width: 4vw !important;
+  }
+  /* input {
+    height: 38px !important;
+    font-size: 18px !important;
+  }
+   */
+}

@@ -1,0 +1,114 @@
+:root {
+  --filing-claims-bg-color: #2670b8;
+}
+.loginScreen {
+  margin-top: 75px;
+  margin-bottom: 50px;
+}
+.formClass {
+  margin-top: 100px;
+  margin-right: 200px;
+}
+.loginRow {
+  margin-top: 50px;
+  text-align: center;
+}
+.filingClaim {
+  font-size: 20px;
+  color: var(--filing-claims-bg-color);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  line-height: 1.2;
+}
+
+.formGroup {
+  margin-bottom: 30px;
+  font-size: 21px;
+}
+.labelColor {
+  color: #a8b0bc;
+}
+
+label,
+input {
+  letter-spacing: 2px;
+  text-transform: none;
+}
+input {
+  border-radius: 15px !important;
+  font-size: 20px !important;
+}
+.nextButton {
+  padding: 6px 52px !important;
+  font-size: 20px !important;
+  border-radius: 30px !important;
+  background-color: rgb(38, 112, 184) !important;
+}
+
+.error {
+  border: 2px solid red !important;
+  box-shadow: none !important;
+}
+.showPassword {
+  position: relative;
+  right: 35px;
+  cursor: pointer;
+}
+.showPassword img {
+  width: 25px;
+  vertical-align: text-bottom;
+}
+@media only screen and (min-width: 100px) {
+  .formGroup {
+    font-size: 21px;
+  }
+}
+@media only screen and (max-width: 400px) {
+  .filingClaim {
+    font-size: 21px;
+  }
+  .formGroup {
+    font-size: 15px;
+  }
+}
+@media only screen and (min-width: 400px) {
+  .filingClaim {
+    font-size: 30px;
+  }
+}
+@media only screen and (min-width: 500px) {
+  .filingClaim {
+    font-size: 40px;
+  }
+}
+@media only screen and (min-width: 600px) {
+  .filingClaim {
+    font-size: 55px;
+  }
+  .formGroup {
+    font-size: 18px;
+  }
+  label {
+    letter-spacing: 2px;
+  }
+}
+
+@media only screen and (min-width: 800px) {
+  .formGroup {
+    font-size: 19px;
+  }
+  label {
+    letter-spacing: 1px !important;
+  }
+}
+@media only screen and (min-width: 900px) {
+  .inputStyle {
+    width: 5vw !important;
+  }
+}
+@media only screen and (min-width: 1110px) {
+  .formGroup {
+    font-size: 21px;
+  }
+}

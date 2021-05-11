@@ -1,0 +1,126 @@
+:root {
+  --main-bg-color: rgb(192, 228, 241);
+  --download-bg-color: #3b93e9;
+}
+.navbar {
+  padding-left: 100px;
+  padding-right: 15px;
+  height: 91px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--main-bg-color);
+
+  border-bottom-left-radius: 170% 50px;
+  border-bottom-right-radius: 170% 50px;
+}
+.downloadForm {
+  color: var(--download-bg-color);
+  font-weight: 600;
+  font-size: 22px;
+  letter-spacing: 1px;
+}
+.downloadForm:hover {
+  color: var(--download-bg-color);
+  text-decoration: none;
+}
+.contactUs {
+  color: #3d3c40;
+  font-weight: 700;
+  font-size: 25px;
+  letter-spacing: 1px;
+}
+.rightSideBar {
+  width: 40%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.rpPortal {
+  display: flex;
+  justify-content: space-between;
+  width: 230px;
+  align-items: center;
+  padding: 10px;
+}
+.rpPortal button {
+  background-color: transparent;
+  color: #3d3c40;
+  font-weight: 700;
+  font-size: 25px;
+  letter-spacing: 1px;
+  border: none;
+}
+.rpPortal button:hover,
+.rpPortal button:focus,
+.rpPortal button:active {
+  background-color: transparent !important;
+  color: black !important;
+  box-shadow: none !important;
+}
+.dropdownMenu div {
+  min-width: -webkit-fill-available;
+  padding: 20px 0px;
+}
+
+@media only screen and (min-width: 250px) {
+  .navbar {
+    padding: 10px;
+    text-align: center;
+    flex-wrap: nowrap;
+  }
+  .logo {
+    width: 125px;
+  }
+  .downloadForm {
+    font-size: 10px;
+  }
+}
+
+@media only screen and (min-width: 400px) {
+  .navbar {
+    padding: 15px;
+  }
+  .logo {
+    width: 150px;
+  }
+  .downloadForm {
+    font-size: 16px;
+  }
+}
+
+@media only screen and (min-width: 500px) {
+  .navbar {
+    padding: 0px 30px;
+  }
+  .logo {
+    width: 170px;
+  }
+  .downloadForm {
+    font-size: 18px;
+  }
+}
+
+@media only screen and (min-width: 700px) {
+  .navbar {
+    padding: 0px 45px;
+  }
+  .logo {
+    width: 220px;
+  }
+  .downloadForm {
+    font-size: 30px;
+  }
+}
+
+@media only screen and (min-width: 900px) {
+  .navbar {
+    padding: 0px 80px;
+  }
+  .logo {
+    width: 185px;
+  }
+  .downloadForm {
+    font-size: 30px;
+  }
+}

@@ -18,12 +18,7 @@ import Header from "../HeaderComponent/Header"
 import Footer from "../FooterComponent/Footer"
 
 import auth from "../Authentication/Auth"
-import {
-  getFolders,
-  createRootFolder,
-  getUrl,
-  deleteUrls,
-} from "../APIFolder/api"
+import { getFolders, createRootFolder, getSubFolders } from "../APIFolder/api"
 
 //  this is the middleComponent
 const DashboardScreen = props => {
@@ -184,7 +179,8 @@ const DashboardScreen = props => {
 
                             //  first have to call our database for url
                             //  our mongodb database
-                            getUrl(obj, setSpecialUrl)
+                            //                            getUrl(obj, setSpecialUrl)
+                            getSubFolders(obj, setSpecialUrl)
                           }
                         }}
                       >

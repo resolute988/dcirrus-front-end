@@ -112,7 +112,6 @@ export const createRootFolder = (folderName, setFolders) => {
           var subFolderStructure = { ...structure }
           subFolderStructure.folderPath = eachFolderPath
           subFolderStructure.parentFolderId = folderId
-          subFolderStructure.folderType = "S"
           createSubFolders(subFolderStructure)
         })
 
@@ -182,6 +181,7 @@ export const createCreditorFolder = (
   filesArray,
   nextScreen
 ) => {
+  console.log("log-1", creditorDetails, decryptedObject)
   const creditorFolderStructure = {
     folderPath:
       decryptedObject[creditorDetails.creditor_claim].folderPath +
@@ -332,31 +332,32 @@ export const updateMetaData = (decryptedObject, feedbackArray, nextScreen) => {
   }
 }
 
-export const getUrl = (obj, setSpecialUrl) => {
-  console.log("obj", obj)
-  axios
-    .get(`${urls.getUrl}/${obj.folderId}`)
-    .then(res => {
-      if (res.status === 200) {
-        const { data } = res
-        if (data.length === 0) {
-          console.log("url response url not present", data)
-          getSubFolders(obj, setSpecialUrl)
-        } else {
-          console.log("url response", data, obj)
-          if (obj.folderId === data[0].folderId) {
-            setSpecialUrl(data[0].url)
-            notification.urlGenerated()
-          }
-        }
-      }
-    })
-    .catch(err => console.log("err", err))
-}
+// export const getUrl = (obj, setSpecialUrl) => {
+//   console.log("obj", obj)
+//   axios
+//     .get(`${urls.getUrl}/${obj.folderId}`)
+//     .then(res => {
+//       if (res.status === 200) {
+//         const { data } = res
+//         if (data.length === 0) {
+//           console.log("url response url not present", data)
+//           getSubFolders(obj, setSpecialUrl)
+//         } else {
+//           console.log("url response", data, obj)
+//           if (obj.folderId === data[0].folderId) {
+//             setSpecialUrl(data[0].url)
+//             notification.urlGenerated()
+//           }
+//         }
+//       }
+//     })
+//     .catch(err => console.log("err", err))
+// }
+
 export const getSubFolders = (obj, setSpecialUrl) => {
   axios
     .get(
-      `https://prepod.dcirrus.co.in/api.acms/v1/app/unindexdoclist/0/0/${obj.folderId}/DESC%60lastmodified/fetchAllAdmFolderChildListResponse`,
+      `${urls.baseURL}app/unindexdoclist/0/0/${obj.folderId}/DESC%60lastmodified/fetchAllAdmFolderChildListResponse`,
       {
         headers: {
           Authorization: "Bearer " + auth.getToken(),
@@ -396,7 +397,7 @@ export const getSubFolders = (obj, setSpecialUrl) => {
           ...obj,
           url: creditorUrl,
         }
-        saveUrl(savedObj)
+        //        saveUrl(savedObj)
         notification.urlGenerated()
       }
     })

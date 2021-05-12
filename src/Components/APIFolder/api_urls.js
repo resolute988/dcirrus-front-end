@@ -1,10 +1,10 @@
 //  base URL
-//const baseURL = "https://prepod.dcirrus.co.in/api.acms/v1/"
-const baseURL = "http://40.75.110.116/api.acms/v1/"
+const baseURL = "http://dev.dcirrus.info/api.acms/v1/"
 
 const backend_server = "https://dcirrus.herokuapp.com"
 
 const urls = {
+  baseURL,
   captcha: baseURL + "publicapi/gencaptcha/0/loginFetchCaptchaAfter",
   login: baseURL + "publicapi/login/0/loginsuccess",
 

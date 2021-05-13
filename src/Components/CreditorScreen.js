@@ -10,7 +10,7 @@ class CreditorScreen extends Component {
     this.state = {
       creditorDetails: {},
     }
-    console.log("props", this.props)
+    console.log("creditor screen", this.props)
   }
 
   //  our creditor details

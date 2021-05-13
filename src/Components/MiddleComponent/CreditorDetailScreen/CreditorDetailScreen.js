@@ -5,12 +5,17 @@ import close from "../../Assets/close.png"
 import dcirrus from "../../Assets/dcirrus.png"
 import React, { useState, useEffect } from "react"
 import OtpInput from "react-otp-input"
+import { createCreditorDetails, getCreditorDetails } from "../../APIFolder/api"
+
+import encryption from "../../Utlitiy/encryption"
+
+import { useLocation } from "react-router-dom"
 
 //  this is the middleComponent
 const Middle = props => {
   //  this is the function to change the screen
-  const { nextScreen, creditorDetails, updateCreditorDetails } = props
-
+  const { nextScreen, creditorDetails, updateCreditorDetails, setCreditorId } =
+    props
   //  in this state we store our fields values
   const [user, setUser] = useState({})
 
@@ -64,11 +69,15 @@ const Middle = props => {
     //  we are doing this because by default we are selecting one radio value
     setUser({
       ...user,
-      [operationalCreditor.getAttribute(
-        "name"
-      )]: operationalCreditor.getAttribute("value"),
+      [operationalCreditor.getAttribute("name")]:
+        operationalCreditor.getAttribute("value"),
     })
   }
+  var encryptedUrl = useLocation().search.split("=")[1]
+
+  //  Decrypt
+  var decryptedObject = encryption.decrypt(encryptedUrl)
+
   useEffect(() => {
     initialization()
   }, [])
@@ -143,6 +152,11 @@ const Middle = props => {
       handleShow()
       //  this function focuses on the first input element
       autoFocus()
+      //  we have to call our database api to check whether current creditor
+      //  is present or not if yes then save their id
+      //                          setCreditorId()
+      user["userId"] = decryptedObject.uId
+      getCreditorDetails(user, setCreditorId)
       //  we are resetting the form
       //      resetForm()
     }

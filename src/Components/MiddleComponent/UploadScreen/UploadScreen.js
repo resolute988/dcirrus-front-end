@@ -12,10 +12,11 @@ import { useLocation } from "react-router-dom"
 //  this is the middleComponent
 const UploadScreen = props => {
   //  this is the function to change the screen
-  const { nextScreen, creditorDetails, updateCreditorDetails } = props
+  const { nextScreen, creditorDetails, updateCreditorDetails, creditorId } =
+    props
+  console.log("creditorId", creditorId)
   //  fetch encryptedUrl from url
   var encryptedUrl = useLocation().search.split("=")[1]
-
   //  Decrypt
   var decryptedObject = encryption.decrypt(encryptedUrl)
 
@@ -119,7 +120,8 @@ const UploadScreen = props => {
         creditorDetails,
         decryptedObject,
         filesArray,
-        nextScreen
+        nextScreen,
+        creditorId
       )
       console.log("Creditor Details", localUser)
     }

@@ -19,7 +19,8 @@ const Middle = props => {
 
   //  index of current screen we will trigger this function when we have to change the screen
   const [currentScreen, setCurrentScreen] = useState(0)
-
+  //  this is the id returned from database if creditor is present
+  const [creditorId, setCreditorId] = useState("")
   const nextScreen = () => {
     var screenNo = currentScreen + 1
     if (screenNo === componentList.length) {
@@ -31,9 +32,20 @@ const Middle = props => {
 
   const components = {
     creditor_detail_screen: (
-      <CreditorDetailScreen nextScreen={nextScreen} {...props} />
+      <CreditorDetailScreen
+        nextScreen={nextScreen}
+        {...props}
+        setCreditorId={setCreditorId}
+      />
     ),
-    upload_screen: <UploadScreen nextScreen={nextScreen} {...props} />,
+    upload_screen: (
+      <UploadScreen
+        nextScreen={nextScreen}
+        {...props}
+        creditorId={creditorId}
+        setCreditorId={setCreditorId}
+      />
+    ),
     successfull_submission_screen: (
       <SuccessfullSubmissionScreen nextScreen={nextScreen} />
     ),

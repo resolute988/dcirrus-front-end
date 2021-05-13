@@ -114,19 +114,6 @@ export const createRootFolder = (folderName, setFolders) => {
           subFolderStructure.parentFolderId = folderId
           createSubFolders(subFolderStructure)
         })
-
-        // setTimeout(() => {
-        //   //  we have an array of objects
-        //   //  so we are transforming these objects to array based on their key
-        //   const localObj = JSON.parse(auth.getfolderIds())
-        //   const localArray = []
-        //   Object.keys(localObj).map(obj => {
-        //     localArray.push(localObj[obj])
-        //   })
-        //   console.log("localArray", localArray)
-        //   // update the new folder array
-        //   setFolders(localArray)
-        // }, 1000)
       }
     })
     .catch(err => {
@@ -179,9 +166,9 @@ export const createCreditorFolder = (
   creditorDetails,
   decryptedObject,
   filesArray,
-  nextScreen
+  nextScreen,
+  creditorId
 ) => {
-  console.log("log-1", creditorDetails, decryptedObject)
   const creditorFolderStructure = {
     folderPath:
       decryptedObject[creditorDetails.creditor_claim].folderPath +
@@ -215,7 +202,13 @@ export const createCreditorFolder = (
         const fileUploadStructure = {
           listAttribute5: fileUploadArray,
         }
-        fileUpload(decryptedObject, fileUploadStructure, nextScreen)
+        fileUpload(
+          decryptedObject,
+          fileUploadStructure,
+          nextScreen,
+          creditorDetails,
+          creditorId
+        )
       }
     })
     .catch(err => {
@@ -225,7 +218,9 @@ export const createCreditorFolder = (
 export const fileUpload = (
   decryptedObject,
   fileUploadStructure,
-  nextScreen
+  nextScreen,
+  credetailsDetails,
+  creditorId
 ) => {
   console.log("fileUpload Array", fileUploadStructure)
 
@@ -249,11 +244,28 @@ export const fileUpload = (
         results = results.filter(obj => obj.attribute4 === "0")
 
         console.log("aws url", results)
+
+        const fileDetails = [...fileUploadStructure.listAttribute5]
+
+        console.log("fileDetails", fileDetails)
+        const fileDetailsArray = []
+        fileDetails.map(fileObj => {
+          fileDetailsArray.push({
+            creditorId: creditorId,
+
+            folderId: fileObj.attribute1,
+            fileName: fileObj.attribute2,
+            fileSize: fileObj.attribute3,
+          })
+        })
+        createFileDetails(fileDetailsArray)
+
         uploadToAws(
           results,
           decryptedObject,
           fileUploadStructure.listAttribute5,
-          nextScreen
+          nextScreen,
+          credetailsDetails
         )
       }
     })
@@ -261,7 +273,13 @@ export const fileUpload = (
       console.error("error", err)
     })
 }
-const uploadToAws = (results, decryptedObject, listAttribute5, nextScreen) => {
+const uploadToAws = (
+  results,
+  decryptedObject,
+  listAttribute5,
+  nextScreen,
+  credetailsDetails
+) => {
   var feedbackArray = []
 
   results.map((eachUrl, index) => {
@@ -289,8 +307,12 @@ const uploadToAws = (results, decryptedObject, listAttribute5, nextScreen) => {
           //  an array of results from aws
           //  it means files are uploaded  or not
           //  if yes then inserted an object otherwise returns false
-
-          updateMetaData(decryptedObject, feedbackArray, nextScreen)
+          updateMetaData(
+            decryptedObject,
+            feedbackArray,
+            nextScreen,
+            credetailsDetails
+          )
         }
       })
       .catch(err => {
@@ -299,7 +321,12 @@ const uploadToAws = (results, decryptedObject, listAttribute5, nextScreen) => {
   })
   if (results.length === 0) updateMetaData(decryptedObject, feedbackArray)
 }
-export const updateMetaData = (decryptedObject, feedbackArray, nextScreen) => {
+export const updateMetaData = (
+  decryptedObject,
+  feedbackArray,
+  nextScreen,
+  credetailsDetails
+) => {
   if (feedbackArray.length === 0) {
     console.log("update meta data files already uploaded")
   } else {
@@ -322,6 +349,8 @@ export const updateMetaData = (decryptedObject, feedbackArray, nextScreen) => {
         if (data && data.messageCode === 201) {
           console.log(`${data.object.length} files sucessfully uploaded`, data)
           notification.filesUploaded(`${data.object.length} files`)
+          //  if everything is fine then save the file related information to our database
+          // createFileDetails()
           nextScreen()
         }
       })
@@ -331,28 +360,6 @@ export const updateMetaData = (decryptedObject, feedbackArray, nextScreen) => {
       })
   }
 }
-
-// export const getUrl = (obj, setSpecialUrl) => {
-//   console.log("obj", obj)
-//   axios
-//     .get(`${urls.getUrl}/${obj.folderId}`)
-//     .then(res => {
-//       if (res.status === 200) {
-//         const { data } = res
-//         if (data.length === 0) {
-//           console.log("url response url not present", data)
-//           getSubFolders(obj, setSpecialUrl)
-//         } else {
-//           console.log("url response", data, obj)
-//           if (obj.folderId === data[0].folderId) {
-//             setSpecialUrl(data[0].url)
-//             notification.urlGenerated()
-//           }
-//         }
-//       }
-//     })
-//     .catch(err => console.log("err", err))
-// }
 
 export const getSubFolders = (obj, setSpecialUrl) => {
   axios
@@ -405,25 +412,41 @@ export const getSubFolders = (obj, setSpecialUrl) => {
       console.error("get subfolders api error", err)
     })
 }
-export const saveUrl = folderObj => {
-  const obj = folderObj
-  axios
-    .post(urls.saveUrl, obj)
-    .then(res => console.log("saveUrl response", res))
-    .catch(err => console.log("err", err))
-}
-export const createCreditorDetails = creditorDetailsObj => {
+export const createCreditorDetails = (creditorDetailsObj, setCreditorId) => {
   const obj = creditorDetailsObj
+  //  we are removing this field because we dont require
+  //  delete obj["creditor_claim"]
   console.log("credetailsDetails", obj)
   axios
-    .post(urls.saveUrl, obj)
-    .then(res => console.log("create CreditorDetails Api response", res))
+    .post(urls.creditorDetails, obj)
+    .then(res => {
+      console.log("create CreditorDetails Api response", res)
+      setCreditorId(res._id)
+    })
+    .catch(err => console.log("err", err))
+}
+export const getCreditorDetails = (creditorDetailsObj, setCreditorId) => {
+  const obj = creditorDetailsObj
+  console.log("object", obj)
+
+  axios
+    .get(urls.getCreditorDetails + "?email_id=" + obj.email_id)
+    .then(res => {
+      console.log("create CreditorDetails Api response", res)
+
+      if (res.data.length === 0) {
+        createCreditorDetails(obj, setCreditorId)
+      } else setCreditorId(res.data[0]._id)
+    })
     .catch(err => console.log("err", err))
 }
 
-export const deleteUrls = () => {
+export const createFileDetails = fileDetails => {
+  console.log("fileDetails obj", fileDetails)
   axios
-    .delete(urls.deleteUrls)
-    .then(res => console.log("deleted api response", res))
-    .catch(err => console.log("deleted api error", err))
+    .post(urls.fileDetails, fileDetails)
+    .then(res => {
+      console.log("create FileDetails Api response", res)
+    })
+    .catch(err => console.log("err", err))
 }

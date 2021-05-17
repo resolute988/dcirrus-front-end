@@ -18,6 +18,7 @@ class CreditorScreen extends Component {
     this.setState({ creditorDetails: obj })
   }
   render() {
+    const { login } = this.props
     return (
       <div>
         <Header />
@@ -25,6 +26,7 @@ class CreditorScreen extends Component {
           {...this.props.match.params}
           creditorDetails={this.state.creditorDetails}
           updateCreditorDetails={this.updateCreditorDetails}
+          login={login}
         />
         <Footer />
       </div>

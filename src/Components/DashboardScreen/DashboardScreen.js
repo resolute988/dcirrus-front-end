@@ -22,11 +22,17 @@ import { getFolders, createRootFolder, getSubFolders } from "../APIFolder/api"
 
 //  this is the middleComponent
 const DashboardScreen = props => {
+  const list = [
+    { folderNM: "folder-1 folder-3" },
+    { folderNM: "folder-2" },
+    { folderNM: "folder-3 folder-3" },
+    { folderNM: "folder-4" },
+    { folderNM: "folder-5 folder-3" },
+  ]
   const [folders, setFolders] = useState([])
 
   useEffect(() => {
     getFolders(setFolders)
-    // deleteUrls()
   }, [])
 
   //  to track the selected folder
@@ -50,7 +56,7 @@ const DashboardScreen = props => {
 
   //  this is our special url to the company folder where creditor will  go and upload their documents
   const [specialUrl, setSpecialUrl] = useState("")
-  const loginStatus = auth.getLoginStatus()
+  const loginStatus = auth.getLoginStatus() || true
 
   const creditorTooltip = useRef(null)
 
@@ -68,71 +74,76 @@ const DashboardScreen = props => {
           <Container fluid className={style.mainContainer}>
             <Row className={style.firstRow}>
               <Col
-                lg='8'
+                md='4'
+                sm='12'
+                xs='12'
                 className={`${style.firstRowFirstColumn} d-flex justify-space-between`}
               >
-                <div> MY COMPANIES </div>
-                <div className='d-inline-block ml-5'>
-                  {toggleCreateFolder ? (
-                    <Button
-                      variant='primary'
-                      className=' text-uppercase'
-                      size='lg'
-                      onClick={() => {
-                        setToggleCreateFolder(!toggleCreateFolder)
-                      }}
-                    >
-                      create company
-                    </Button>
-                  ) : (
-                    <Form.Control
-                      onBlur={() => {
-                        setNewFolder("")
-                        setToggleCreateFolder(!toggleCreateFolder)
-                      }}
-                      value={newFolder}
-                      onChange={e => {
-                        //  these are the special characters which we dont want to allow while creating a new folder
-                        const notAllowed = "\\/:*?<>|# "
+                MY COMPANIES
+              </Col>
+              <Col md='4' sm='6' xs='11'>
+                {toggleCreateFolder ? (
+                  <Button
+                    variant='success'
+                    className=' text-uppercase'
+                    size='lg'
+                    style={{ borderRadius: "30px" }}
+                    block
+                    onClick={() => {
+                      setToggleCreateFolder(!toggleCreateFolder)
+                    }}
+                  >
+                    create
+                  </Button>
+                ) : (
+                  <Form.Control
+                    onBlur={() => {
+                      setNewFolder("")
+                      setToggleCreateFolder(!toggleCreateFolder)
+                    }}
+                    value={newFolder}
+                    onChange={e => {
+                      //  these are the special characters which we dont want to allow while creating a new folder
+                      const notAllowed = "\\/:*?<>|# "
 
-                        //  if these characters present  then we dont save that value
-                        if (
-                          !notAllowed.includes(
-                            e.target.value[e.target.value.length - 1]
-                          )
-                        ) {
-                          setNewFolder(e.target.value)
-                        } else if (
-                          e.target.value[e.target.value.length - 1] === " " &&
-                          newFolder !== ""
-                        ) {
-                          setNewFolder(e.target.value)
-                        }
-                      }}
-                      onKeyPress={e => {
-                        if (e.key === "Enter") {
-                          if (newFolder !== "") {
-                            // first is the new root folder name
-                            //  second is the function to set the array of folders
-                            createRootFolder(newFolder, setFolders)
+                      //  if these characters present  then we dont save that value
+                      if (
+                        !notAllowed.includes(
+                          e.target.value[e.target.value.length - 1]
+                        )
+                      ) {
+                        setNewFolder(e.target.value)
+                      } else if (
+                        e.target.value[e.target.value.length - 1] === " " &&
+                        newFolder !== ""
+                      ) {
+                        setNewFolder(e.target.value)
+                      }
+                    }}
+                    onKeyPress={e => {
+                      if (e.key === "Enter") {
+                        if (newFolder !== "") {
+                          // first is the new root folder name
+                          //  second is the function to set the array of folders
+                          createRootFolder(newFolder, setFolders)
 
-                            setToggleCreateFolder(!toggleCreateFolder)
-                            setNewFolder("")
-                          }
+                          setToggleCreateFolder(!toggleCreateFolder)
+                          setNewFolder("")
                         }
-                      }}
-                      autoFocus
-                      size='lg'
-                      type='text'
-                    />
-                  )}
-                </div>
+                      }
+                    }}
+                    autoFocus
+                    size='lg'
+                    type='text'
+                  />
+                )}
               </Col>
 
-              <Col lg='4' className={style.firstRowSecondColumn}>
+              <Col md='4' sm='6' xs='12' className={style.firstRowSecondColumn}>
                 <div className='d-flex align-items-center'>
                   <Form.Control
                     type='text'
+                    style={{ borderRadius: "30px" }}
                     className={style.searchFolder}
                     onChange={e => {
                       setSearchValue(e.target.value)
@@ -160,7 +171,7 @@ const DashboardScreen = props => {
               </Col>
             </Row>
             <Row className={style.secondRow}>
-              <Col lg='8' className={style.secondRowFirstColumn}>
+              <Col xs='12' lg='7' className={style.secondRowFirstColumn}>
                 {folders
                   .filter(folderObj => folderObj.folderNM.includes(searchValue))
                   .map((obj, index) => {
@@ -176,10 +187,6 @@ const DashboardScreen = props => {
                           if (folderSelected !== index) {
                             setFolderSelected(index)
                             setFolderName(obj.folderNM)
-
-                            //  first have to call our database for url
-                            //  our mongodb database
-                            //                            getUrl(obj, setSpecialUrl)
                             getSubFolders(obj, setSpecialUrl)
                           }
                         }}
@@ -192,7 +199,13 @@ const DashboardScreen = props => {
               </Col>
 
               {folderSelected !== -1 ? (
-                <Col lg='4' className={style.secondRowSecondColumn}>
+                <Col
+                  xs='12'
+                  sm='10'
+                  md='8'
+                  lg='5'
+                  className={style.secondRowSecondColumn}
+                >
                   <div className={style.folderInformationBlock}>
                     <span className={style.selectedFolderName}>
                       {folderName}

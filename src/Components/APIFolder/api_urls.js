@@ -12,18 +12,14 @@ const urls = {
   createFolder:
     baseURL + "app/unindexfolderaddauth/0/web/admAddNewFolderServiceAfter",
 
-  getFolder:
+  getFolders:
     baseURL +
     "app/unindexfolderlistg/0/zerolevel/0/P/fetchAllAdmFolderListResponse",
-  getSubFolders:
-    baseURL +
-    "app/unindexdoclist/0/0/17/DESC%60lastmodified/fetchAllAdmFolderChildListResponse",
   fileUpload: baseURL + "app/unindexgend/0/atc",
   updateMetaData:
     baseURL + "app/unindexdocadd/0/desktop/admDocAddMetaDataServiceAfter",
   creditorDetails: backend_server + "/creditordetails/create",
   getCreditorDetails: backend_server + "/creditordetails/",
   fileDetails: backend_server + "/filedetails/create",
-  deleteUrls: backend_server + "/",
 }
 export default urls

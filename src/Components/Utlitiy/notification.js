@@ -25,6 +25,9 @@ const notification = {
   urlNotGenerated: () => {
     toast.error(`url not generated`)
   },
+  someProblem: () => {
+    toast.error(`There is some problem. Please refresh the browser`)
+  },
 }
 
 export default notification

@@ -154,7 +154,6 @@ const Middle = props => {
       autoFocus()
       //  we have to call our database api to check whether current creditor
       //  is present or not if yes then save their id
-      //                          setCreditorId()
       user["userId"] = decryptedObject.uId
       getCreditorDetails(user, setCreditorId)
       //  we are resetting the form
@@ -178,19 +177,18 @@ const Middle = props => {
   const [otpVerification, setOtpVerification] = useState(true)
 
   return (
-    <>
+    <div className='ml-5'>
       <Container fluid className='my-4 mr-2'>
         <Row className={style.filingClaim}>Filing claims just</Row>
         <Row className={style.filingClaim}>became easier.</Row>
       </Container>
       <Form
         id={id.form_id}
-        style={{ lineHeight: "1" }}
-        className='my-4'
+        style={{ lineHeight: "1", marginTop: "50px" }}
         onSubmit={formSubmission}
       >
         <Row>
-          <Col lg='6'>
+          <Col xs='10'>
             <Form.Group
               onChange={handleChange}
               controlId={id.resolution_professional}
@@ -200,17 +198,17 @@ const Middle = props => {
                 RESOLUTION PROFESSIONAL
               </Form.Label>
               <Form.Control
-                className={
+                className={`${
                   formValidation &&
                   !user[id.resolution_professional] &&
                   style.error
-                }
+                } ${style.inputColor}`}
                 name={id.resolution_professional}
                 type='text'
               />
             </Form.Group>
           </Col>
-          <Col lg='6'>
+          <Col xs='10'>
             <Form.Group
               controlId={id.registration_number}
               onChange={handleChange}
@@ -220,9 +218,9 @@ const Middle = props => {
                 REGISTRATION NUMBER
               </Form.Label>
               <Form.Control
-                className={
+                className={`${
                   formValidation && !user[id.registration_number] && style.error
-                }
+                } ${style.inputColor}`}
                 name={id.registration_number}
                 type='text'
               />
@@ -230,7 +228,7 @@ const Middle = props => {
           </Col>
         </Row>
         <Row>
-          <Col lg='6'>
+          <Col xs='10'>
             <Form.Group
               className={style.formGroup}
               onChange={handleChange}
@@ -238,7 +236,9 @@ const Middle = props => {
             >
               <Form.Label className={style.labelColor}>CREDITOR</Form.Label>
               <Form.Control
-                className={formValidation && !user[id.creditor] && style.error}
+                className={`${
+                  formValidation && !user[id.creditor] && style.error
+                } ${style.inputColor}`}
                 name={id.creditor}
                 type='text'
               />
@@ -246,7 +246,7 @@ const Middle = props => {
           </Col>
         </Row>
         <Row>
-          <Col lg='6'>
+          <Col xs='10'>
             <Form.Group
               className={style.formGroup}
               controlId={id.first_name}
@@ -254,15 +254,15 @@ const Middle = props => {
             >
               <Form.Label className={style.labelColor}>FIRST NAME</Form.Label>
               <Form.Control
-                className={
+                className={`${
                   formValidation && !user[id.first_name] && style.error
-                }
+                } ${style.inputColor}`}
                 name={id.first_name}
                 type='text'
               />
             </Form.Group>
           </Col>
-          <Col lg='6'>
+          <Col xs='10'>
             <Form.Group
               className={style.formGroup}
               controlId={id.last_name}
@@ -270,7 +270,9 @@ const Middle = props => {
             >
               <Form.Label className={style.labelColor}>LAST NAME</Form.Label>
               <Form.Control
-                className={formValidation && !user[id.last_name] && style.error}
+                className={`${
+                  formValidation && !user[id.last_name] && style.error
+                } ${style.inputColor}`}
                 name={id.last_name}
                 type='text'
               />
@@ -278,7 +280,7 @@ const Middle = props => {
           </Col>
         </Row>
         <Row>
-          <Col>
+          <Col xs='10'>
             <Form.Group
               className={style.formGroup}
               onChange={handleChange}
@@ -286,7 +288,9 @@ const Middle = props => {
             >
               <Form.Label className={style.labelColor}>EMAIL ID</Form.Label>
               <Form.Control
-                className={formValidation && !user[id.email_id] && style.error}
+                className={`${
+                  formValidation && !user[id.email_id] && style.error
+                } ${style.inputColor}`}
                 name={id.email_id}
                 type='email'
               />
@@ -294,7 +298,7 @@ const Middle = props => {
           </Col>
         </Row>
         <Row>
-          <Col>
+          <Col xs='10'>
             <Form.Group
               className={style.formGroup}
               onChange={handleChange}
@@ -302,9 +306,9 @@ const Middle = props => {
             >
               <Form.Label className={style.labelColor}>PHONE NUMBER</Form.Label>
               <Form.Control
-                className={
+                className={`${
                   formValidation && !user[id.phone_number] && style.error
-                }
+                } ${style.inputColor}`}
                 name={id.phone_number}
                 type='tel'
               />
@@ -312,7 +316,7 @@ const Middle = props => {
           </Col>
         </Row>
         <Row>
-          <Col sm={10}>
+          <Col xs='10'>
             <Form.Group className={style.formGroup} onChange={handleChange}>
               <Form.Check
                 className={style.radioLabelColor}
@@ -336,7 +340,7 @@ const Middle = props => {
         </Row>
 
         <Row>
-          <Col className='text-center'>
+          <Col className='col-10 text-center'>
             <Button type='submit' className={style.nextButton}>
               NEXT
             </Button>
@@ -400,7 +404,7 @@ const Middle = props => {
           </Col>
         </Row>
       </Form>
-    </>
+    </div>
   )
 }
 

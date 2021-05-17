@@ -3,8 +3,7 @@
   --download-bg-color: #3b93e9;
 }
 .navbar {
-  padding-left: 100px;
-  padding-right: 15px;
+  padding: 0px 30px;
   height: 91px;
   display: flex;
   justify-content: space-between;
@@ -19,6 +18,7 @@
   font-weight: 600;
   font-size: 22px;
   letter-spacing: 1px;
+  display: none;
 }
 .downloadForm:hover {
   color: var(--download-bg-color);
@@ -30,11 +30,15 @@
   font-size: 25px;
   letter-spacing: 1px;
 }
+.contactUs:focus {
+  text-decoration: none;
+  color: #3d3c40;
+}
 .rightSideBar {
-  width: 40%;
-  display: flex;
-  justify-content: space-between;
+  display: none;
   align-items: center;
+  justify-content: space-between;
+  width: 500px;
 }
 .rpPortal {
   display: flex;
@@ -62,8 +66,42 @@
   min-width: -webkit-fill-available;
   padding: 20px 0px;
 }
+.sidebarOpen {
+  z-index: 99999;
+}
+.sidebarClose {
+  width: 0px;
+  z-index: 99999;
+}
+.hamburgerMenu {
+  display: block;
+}
+/*  by default above css for extra small size */
+/*  given css is for larger mobile screen */
+@media only screen and (min-width: 576px) {
+}
 
-@media only screen and (min-width: 250px) {
+/*  given css is for tablet screen */
+@media only screen and (min-width: 768px) {
+  .downloadForm {
+    display: block;
+  }
+  .rightSideBar {
+    display: flex;
+  }
+  .hamburgerMenu {
+    display: none;
+  }
+}
+
+/*  given css is for laptop screen */
+@media only screen and (min-width: 992px) {
+}
+/*  given css is for desktop screen */
+@media only screen and (min-width: 1200px) {
+}
+
+/* @media only screen and (min-width: 250px) {
   .navbar {
     padding: 10px;
     text-align: center;
@@ -123,4 +161,4 @@
   .downloadForm {
     font-size: 30px;
   }
-}
+} */

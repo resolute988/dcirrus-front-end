@@ -125,17 +125,17 @@ const LoginScreen = props => {
 
   return (
     <div className={style.loginScreen}>
-      <Container fluid className='my-4 mr-2'>
+      <div className='my-4 pl-3'>
         <Row className={style.filingClaim}>Filing claims just</Row>
         <Row className={style.filingClaim}>became easier.</Row>
-      </Container>
+      </div>
       <Form
         id={id.form_id}
         className={style.formClass}
         onSubmit={formSubmission}
       >
         <Row>
-          <Col>
+          <Col xs='11'>
             <Form.Group
               className={style.formGroup}
               onChange={handleChange}
@@ -143,7 +143,9 @@ const LoginScreen = props => {
             >
               <Form.Label className={style.labelColor}>EMAIL ID</Form.Label>
               <Form.Control
-                className={formValidation && !user[id.email_id] && style.error}
+                className={`${
+                  formValidation && !user[id.email_id] && style.error
+                } ${style.inputColor}`}
                 name={id.email_id}
                 type='email'
               />
@@ -151,7 +153,7 @@ const LoginScreen = props => {
           </Col>
         </Row>
         <Row>
-          <Col>
+          <Col xs='11'>
             <Form.Group
               className={style.formGroup}
               onChange={handleChange}
@@ -160,9 +162,9 @@ const LoginScreen = props => {
               <Form.Label className={style.labelColor}>PASSWORD</Form.Label>
               <div className='mb-3 d-flex align-items-center'>
                 <Form.Control
-                  className={
+                  className={`${
                     formValidation && !user[id.password] && style.error
-                  }
+                  } ${style.inputColor}`}
                   name={id.password}
                   type={showPassword ? "text" : "password"}
                   style={{ paddingRight: "40px", color: "#6F6D73" }}
@@ -180,17 +182,19 @@ const LoginScreen = props => {
           </Col>
         </Row>
         <Row>
-          <Col>
+          <Col xs='11'>
             <Form.Group
               className={style.formGroup}
               onChange={handleChange}
               controlId={id.captcha}
             >
               <Form.Label className={style.labelColor}>
-                <img src={captchaObj.img} alt='captcha' />
+                <img src={captchaObj.img} alt='Captcha' />
               </Form.Label>
               <Form.Control
-                className={formValidation && !user[id.captcha] && style.error}
+                className={`${
+                  formValidation && !user[id.captcha] && style.error
+                } ${style.inputColor}`}
                 name={id.captcha}
                 type='text'
               />
@@ -199,8 +203,8 @@ const LoginScreen = props => {
         </Row>
 
         <Row className={style.loginRow}>
-          <Col>
-            <Button type='submit' className={style.nextButton}>
+          <Col xs='11'>
+            <Button type='submit' className={`${style.nextButton} `}>
               LOGIN
             </Button>
           </Col>

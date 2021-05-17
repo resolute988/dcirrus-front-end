@@ -23,7 +23,8 @@
   letter-spacing: 1px;
   margin: 15px;
 }
-@media only screen and (min-width: 400px) {
+
+/* @media only screen and (min-width: 400px) {
   .mainBlock {
     height: 60vh;
     margin-top: 20px;
@@ -83,5 +84,48 @@
   .nextButton {
     padding: 7px 30px !important;
     font-size: 20px !important;
+  }
+} */
+
+/*  by default above css for extra small size */
+/*  given css is for larger mobile screen */
+@media only screen and (min-width: 576px) {
+  .firstRow {
+    font-size: 40px;
+  }
+  .secondRow {
+    font-size: 25px;
+  }
+  .nextButton {
+    font-size: 25px !important;
+  }
+}
+
+/*  given css is for tablet screen */
+@media only screen and (min-width: 768px) {
+}
+
+/*  given css is for laptop screen */
+@media only screen and (min-width: 992px) {
+  .mainBlock {
+    margin-top: 20%;
+  }
+  .secondRow {
+    font-size: 19px;
+  }
+  .nextButton {
+    font-size: 18px !important;
+  }
+}
+/*  given css is for desktop screen */
+@media only screen and (min-width: 1200px) {
+  .mainBlock {
+    margin-top: 25%;
+  }
+  .secondRow {
+    font-size: 25px;
+  }
+  .nextButton {
+    font-size: 25px !important;
   }
 }

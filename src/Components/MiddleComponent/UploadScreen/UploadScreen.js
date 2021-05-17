@@ -11,14 +11,17 @@ import { useLocation } from "react-router-dom"
 
 //  this is the middleComponent
 const UploadScreen = props => {
+  const location = useLocation()
   //  this is the function to change the screen
   const { nextScreen, creditorDetails, updateCreditorDetails, creditorId } =
     props
-  console.log("creditorId", creditorId)
-  //  fetch encryptedUrl from url
-  var encryptedUrl = useLocation().search.split("=")[1]
-  //  Decrypt
-  var decryptedObject = encryption.decrypt(encryptedUrl)
+  const [decryptedObject, setDecryptedObject] = useState({})
+  useEffect(() => {
+    //  fetch encryptedUrl from url
+    var encryptedUrl = location.search.split("=")[1]
+    //  Decrypt
+    setDecryptedObject(encryption.decrypt(encryptedUrl))
+  }, [])
 
   //  in this state we store our fields values
   const [user, setUser] = useState({})
@@ -102,28 +105,21 @@ const UploadScreen = props => {
       //  fields are validated
       changeFormValidationStatus(false)
 
-      var localUser = {
+      var creditorInfo = {
         ...user,
         [id.uploaded_form]: [...uploadedForms],
         [id.form_attachments]: [...formAttachments],
+        ...creditorDetails,
+        creditorId,
       }
-      localUser = { ...creditorDetails, ...localUser }
       console.log(
         "these are the information of creditor after validation",
-        localUser
+        creditorInfo
       )
-
-      updateCreditorDetails(localUser)
-      const filesArray = [...uploadedForms, ...formAttachments]
-
-      createCreditorFolder(
-        creditorDetails,
-        decryptedObject,
-        filesArray,
-        nextScreen,
-        creditorId
-      )
-      console.log("Creditor Details", localUser)
+      //  updated our creditorInfo
+      updateCreditorDetails(creditorInfo)
+      const obj = { creditorInfo, decryptedObject, nextScreen }
+      createCreditorFolder(obj)
     }
   }
   const formReset = () => {
@@ -283,6 +279,7 @@ const UploadScreen = props => {
     return (
       <div className='mb-3 d-flex align-items-center'>
         <Form.Control
+          className={`${style.inputColor}`}
           type='text'
           style={{ paddingRight: "40px", color: "#6F6D73" }}
           defaultValue={fileName}
@@ -296,10 +293,14 @@ const UploadScreen = props => {
 
   //  this our main component our entire form
   return (
-    <Form id={id.form_id} className='mt-5 mb-3' onSubmit={formSubmission}>
+    <Form
+      id={id.form_id}
+      className={`mt-5 mb-3 ${style.formStyle}`}
+      onSubmit={formSubmission}
+    >
       {/*  the first 3 rows are our form fields */}
       <Row>
-        <Col lg='7'>
+        <Col xs='11' sm='5' md='5' lg='5' xl='5'>
           <Form.Group
             onChange={handleChange}
             controlId={id.resolution_professional}
@@ -309,17 +310,17 @@ const UploadScreen = props => {
               RESOLUTION PROFESSIONAL
             </Form.Label>
             <Form.Control
-              className={
+              className={`${
                 formValidation &&
                 !user[id.resolution_professional] &&
                 style.error
-              }
+              } ${style.inputColor}`}
               name={id.resolution_professional}
               type='text'
             />
           </Form.Group>
         </Col>
-        <Col lg='5'>
+        <Col xs='11' sm='6' md='6' lg='5' xl='5'>
           <Form.Group
             controlId={id.registration_number}
             onChange={handleChange}
@@ -329,9 +330,9 @@ const UploadScreen = props => {
               REGISTRATION NUMBER
             </Form.Label>
             <Form.Control
-              className={
+              className={`${
                 formValidation && !user[id.registration_number] && style.error
-              }
+              } ${style.inputColor}`}
               name={id.registration_number}
               type='text'
             />
@@ -339,7 +340,7 @@ const UploadScreen = props => {
         </Col>
       </Row>
       <Row>
-        <Col lg='6'>
+        <Col xs='11' md='7' xl='7'>
           <Form.Group
             className={style.formGroup}
             onChange={handleChange}
@@ -347,7 +348,9 @@ const UploadScreen = props => {
           >
             <Form.Label className={style.labelColor}>CREDITOR</Form.Label>
             <Form.Control
-              className={formValidation && !user[id.creditor] && style.error}
+              className={`${
+                formValidation && !user[id.creditor] && style.error
+              } ${style.inputColor}`}
               name={id.creditor}
               type='text'
             />
@@ -355,7 +358,7 @@ const UploadScreen = props => {
         </Col>
       </Row>
       <Row>
-        <Col lg='4'>
+        <Col xs='11' md='7' xl='7'>
           <Form.Group
             className={style.formGroup}
             controlId={id.form_name}
@@ -363,7 +366,9 @@ const UploadScreen = props => {
           >
             <Form.Label className={style.labelColor}>FORM NAME</Form.Label>
             <Form.Control
-              className={formValidation && !user[id.form_name] && style.error}
+              className={`${
+                formValidation && !user[id.form_name] && style.error
+              } ${style.inputColor}`}
               name={id.form_name}
               type='text'
             />
@@ -373,7 +378,7 @@ const UploadScreen = props => {
 
       {/*  our 4th and 5th rows are for uploading forms and form attachments */}
       <Row className='mb-4'>
-        <Col lg='11'>
+        <Col xs='11' lg='7' xl='9'>
           <Form.Group
             className={style.formGroup}
             onChange={handleChange}
@@ -402,7 +407,7 @@ const UploadScreen = props => {
         </Col>
       </Row>
       <Row>
-        <Col lg='11'>
+        <Col xs='11' lg='7' xl='9'>
           <Form.Group
             className={style.formGroup}
             onChange={handleChange}
@@ -441,7 +446,7 @@ const UploadScreen = props => {
 
       {/*  our last row that is 6th is a button we have to click when we submit all the fields  */}
       <Row className={style.uploadRow}>
-        <Col>
+        <Col xs='11'>
           <Button type='submit' className={style.uploadButton}>
             UPLOAD & SUBMIT CLAIM
           </Button>

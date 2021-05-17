@@ -1,9 +1,15 @@
 .firstRow {
-  padding: inherit;
-  margin-left: 4% !important;
+  margin: 50px 0px;
+}
+.firstColumn {
+  padding-left: 5%;
+
+  margin: 0px;
 }
 .secondColumn {
   padding: 0px;
+  display: none;
+  margin: auto;
 }
 .middleIcon {
   width: 100%;
@@ -19,44 +25,7 @@
   width: 60%;
 }
 
-/*  give css has been remvoved just for demo pusposes */
-.sidebar {
-  font-size: 40px;
-  position: absolute;
-  top: 90px;
-  left: -404px;
-  background-color: darkblue;
-  border-right: 10px solid red;
-  width: 30%;
-  height: 50px;
-  padding-left: 5%;
-  padding-right: 2%;
-  color: cyan;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-}
-.sidebar:hover {
-  left: 0px;
-  transition: left 0.8s;
-}
-.firstColumn {
-  margin: 10px 0px;
-}
-
-@media only screen and (min-width: 100px) {
-  .secondColumn {
-    display: none;
-  }
-}
-
-@media only screen and (min-width: 600px) {
-  .firstColumn {
-    width: 90%;
-  }
-}
-
-@media only screen and (min-width: 1110px) {
+@media only screen and (min-width: 992px) {
   .firstColumn {
     width: 50%;
   }
@@ -64,7 +33,24 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    margin-top: 75px;
-    margin-bottom: 20px;
   }
+}
+
+/*  give css has been remvoved just for demo pusposes */
+.sidebar {
+  font-size: 40px;
+  position: absolute;
+  left: -260px;
+  background-color: darkblue;
+  border-right: 10px solid red;
+  width: 20%;
+  height: 50px;
+  padding-right: 2%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.sidebar:hover {
+  left: 0px;
+  transition: left 0.8s;
 }

@@ -1,25 +1,25 @@
 :root {
   --filing-claims-bg-color: #2670b8;
 }
+
 .loginScreen {
-  margin-top: 75px;
-  margin-bottom: 50px;
+  margin-left: 50px;
 }
 .formClass {
-  margin-top: 100px;
-  margin-right: 200px;
+  margin-top: 50px;
 }
 .loginRow {
-  margin-top: 50px;
+  margin-top: 30px;
   text-align: center;
 }
 .filingClaim {
-  font-size: 20px;
+  font-size: 25px;
   color: var(--filing-claims-bg-color);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 2px;
   line-height: 1.2;
+  text-align: center;
 }
 
 .formGroup {
@@ -29,13 +29,7 @@
 .labelColor {
   color: #a8b0bc;
 }
-
-label,
-input {
-  letter-spacing: 2px;
-  text-transform: none;
-}
-input {
+.inputColor {
   border-radius: 15px !important;
   font-size: 20px !important;
 }
@@ -59,56 +53,30 @@ input {
   width: 25px;
   vertical-align: text-bottom;
 }
-@media only screen and (min-width: 100px) {
-  .formGroup {
-    font-size: 21px;
-  }
-}
-@media only screen and (max-width: 400px) {
+/*  by default above css for extra small size */
+/*  given css is for small mobile screen */
+@media only screen and (min-width: 576px) {
   .filingClaim {
-    font-size: 21px;
-  }
-  .formGroup {
-    font-size: 15px;
-  }
-}
-@media only screen and (min-width: 400px) {
-  .filingClaim {
-    font-size: 30px;
-  }
-}
-@media only screen and (min-width: 500px) {
-  .filingClaim {
-    font-size: 40px;
-  }
-}
-@media only screen and (min-width: 600px) {
-  .filingClaim {
-    font-size: 55px;
-  }
-  .formGroup {
-    font-size: 18px;
-  }
-  label {
-    letter-spacing: 2px;
+    font-size: 35px;
   }
 }
 
-@media only screen and (min-width: 800px) {
-  .formGroup {
-    font-size: 19px;
-  }
-  label {
-    letter-spacing: 1px !important;
+/*  given css is for tablet screen */
+@media only screen and (min-width: 768px) {
+  .filingClaim {
+    font-size: 50px;
   }
 }
-@media only screen and (min-width: 900px) {
-  .inputStyle {
-    width: 5vw !important;
+
+/*  given css is for laptop screen */
+@media only screen and (min-width: 992px) {
+  .filingClaim {
+    font-size: 34px;
   }
 }
-@media only screen and (min-width: 1110px) {
-  .formGroup {
-    font-size: 21px;
+/*  given css is for desktop screen */
+@media only screen and (min-width: 1200px) {
+  .filingClaim {
+    font-size: 42px;
   }
 }

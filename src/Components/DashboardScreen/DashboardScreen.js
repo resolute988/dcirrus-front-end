@@ -148,6 +148,7 @@ const DashboardScreen = props => {
                     onChange={e => {
                       setSearchValue(e.target.value)
                     }}
+                    size='lg'
                     ref={searchElement}
                     value={searchValue}
                   />

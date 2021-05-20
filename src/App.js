@@ -8,6 +8,7 @@ import {
 } from "react-router-dom"
 import auth from "./Components/Authentication/Auth"
 import { ToastContainer } from "react-toastify"
+import "./App.css"
 
 function App() {
   //  our protected route
@@ -16,7 +17,6 @@ function App() {
       <Route
         {...rest}
         render={props => {
-          // || true
           return auth.getLoginStatus() ? (
             <Component {...props} />
           ) : (

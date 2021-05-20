@@ -4,7 +4,6 @@ import dcirrus_white from "../Assets/dcirrus_white.png"
 
 const Footer = props => {
   const { login } = props
-  console.log("footer ", login)
 
   return (
     <Container fluid>

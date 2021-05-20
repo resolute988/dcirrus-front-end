@@ -3,7 +3,7 @@ import style from "./style.module.css"
 import React, { useState, useEffect } from "react"
 import dragIcon from "../../Assets/drag_and_drop.png"
 import close from "../../Assets/close_light_bg.png"
-import { createCreditorFolder } from "../../APIFolder/api"
+import { createCreditorFolder, updateUploadingFiles } from "../../APIFolder/api"
 
 import encryption from "../../Utlitiy/encryption"
 
@@ -13,18 +13,24 @@ import { useLocation } from "react-router-dom"
 const UploadScreen = props => {
   const location = useLocation()
   //  this is the function to change the screen
-  const { nextScreen, creditorDetails, updateCreditorDetails, creditorId } =
-    props
-  const [decryptedObject, setDecryptedObject] = useState({})
-  useEffect(() => {
-    //  fetch encryptedUrl from url
-    var encryptedUrl = location.search.split("=")[1]
-    //  Decrypt
-    setDecryptedObject(encryption.decrypt(encryptedUrl))
-  }, [])
+  const { nextScreen, creditorDetails } = props.methods
 
+  useEffect(() => {
+    if (
+      creditorDetails.creditor.c_id !== "" &&
+      creditorDetails.creditor.u_status === true
+    ) {
+      //  this is the function which will update the files that we have uploaded to our database
+      updateUploadingFiles(creditorDetails)
+      //  have to update the flag again so that files should be uploaded next time
+      const { updateCreditorDetails } = creditorDetails
+      const { creditor } = creditorDetails
+      creditor.u_status = false
+      updateCreditorDetails(creditor)
+    }
+  }, [creditorDetails.creditor.c_id, creditorDetails.creditor.u_status])
   //  in this state we store our fields values
-  const [user, setUser] = useState({})
+  const [secondScreen, setSecondScreen] = useState({})
 
   //  this array is dedicated for uploaded forms and I think we have only one form
   //  this is my assumption please be carefull.
@@ -35,7 +41,7 @@ const UploadScreen = props => {
   const [formAttachments, setformAttachments] = useState([])
 
   // this state is dedicated to know whether we have to start validation process or not
-  const [formValidation, setFormValidation] = useState(false)
+  const [formValidationStatus, setFormValidationStatus] = useState(false)
 
   //  these are the ids of our form fields to avoid confustion
   const id = {
@@ -48,77 +54,101 @@ const UploadScreen = props => {
     form_attachments: "form_attachments",
   }
 
-  //  we have to remove this object this is just for testing purpose
-  const defaultValues = {
-    [id.resolution_professional]: creditorDetails[id.resolution_professional],
-    [id.registration_number]: creditorDetails[id.registration_number],
-    [id.creditor]: creditorDetails[id.creditor],
-  }
-
   //  you have to remove this code this is just for testing purposes
   const fillDefaultValues = () => {
+    //  c_obj means  this object will contain all the details related to  creditor
+    const { c_obj } = creditorDetails.creditor
+    //  we have to remove this object this is just for testing purpose
+    const defaultValues = {
+      [id.resolution_professional]: c_obj[id.resolution_professional],
+      [id.registration_number]: c_obj[id.registration_number],
+      [id.creditor]: c_obj[id.creditor],
+    }
+
     Object.keys(defaultValues).map(id_field => {
       document.getElementById(id_field).value = defaultValues[id_field]
     })
-    console.log("default values", defaultValues)
-    setUser(defaultValues)
+    setSecondScreen(defaultValues)
   }
 
-  useEffect(() => fillDefaultValues(), [])
+  const [decryptedObject, setDecryptedObject] = useState({})
+  useEffect(() => {
+    //  fetch encryptedUrl from url
+    var encryptedUrl = location.search.split("=")[1]
+    //  Decrypt
+    setDecryptedObject(encryption.decrypt(encryptedUrl))
+    fillDefaultValues()
+    console.log("uploadScreen", creditorDetails)
+  }, [])
 
   //  this is the arrow function to handle any change happenend in any input
   //  its a generic function
   const handleChange = e => {
     const { name, value } = e.target
-    setUser({ ...user, [name]: value })
-    //console.log("form values", { ...user, [name]: value })
-  }
-  //  it tells us whether validation is started or not
-  const changeFormValidationStatus = validationStatus => {
-    setFormValidation(validationStatus)
+    setSecondScreen({ ...secondScreen, [name]: value })
   }
 
+  const focusCreditorField = () => {
+    var creditorField = document.getElementById(id.creditor)
+    creditorField.value = ""
+    creditorField.focus()
+    const duplicateUser = { ...secondScreen }
+    duplicateUser[id.creditor] = ""
+    setSecondScreen(duplicateUser)
+  }
   //  this is the place where real validation happens
   const validate = () => {
     const {
       [id.resolution_professional]: resolution_professional,
       [id.registration_number]: registration_number,
-      [id.creditor]: creditor,
+      [id.creditor]: creditor_name,
       [id.form_name]: form_name,
-    } = user
+    } = secondScreen
 
     if (
       resolution_professional === undefined ||
       resolution_professional === "" ||
       registration_number === undefined ||
       registration_number === "" ||
-      creditor === undefined ||
-      creditor === "" ||
+      creditor_name === undefined ||
+      creditor_name === "" ||
       form_name === undefined ||
       form_name === "" ||
       uploadedForms.length === 0 ||
       formAttachments.length === 0
     ) {
-      changeFormValidationStatus(true)
+      setFormValidationStatus(true)
     } else {
       //  now everything is alright
       //  fields are validated
-      changeFormValidationStatus(false)
+      setFormValidationStatus(false)
+      console.log("secondScreen", secondScreen)
 
-      var creditorInfo = {
-        ...user,
-        [id.uploaded_form]: [...uploadedForms],
-        [id.form_attachments]: [...formAttachments],
-        ...creditorDetails,
-        creditorId,
-      }
+      const { creditor, updateCreditorDetails } = creditorDetails
+
+      const form_name = secondScreen[id.form_name]
+      const registration_number = secondScreen[id.registration_number]
+      const resolution_professional = secondScreen[id.resolution_professional]
+      const creditor_name = secondScreen[id.creditor]
+
+      creditor.c_obj[id.creditor] = creditor_name
+      creditor.c_obj[id.registration_number] = registration_number
+      creditor.c_obj[id.resolution_professional] = resolution_professional
+
+      creditor.f_obj.form_name = form_name
+      creditor.f_obj.files = [...uploadedForms, ...formAttachments]
+      updateCreditorDetails(creditor)
       console.log(
         "these are the information of creditor after validation",
-        creditorInfo
+        creditor
       )
-      //  updated our creditorInfo
-      updateCreditorDetails(creditorInfo)
-      const obj = { creditorInfo, decryptedObject, nextScreen }
+
+      const obj = {
+        creditorDetails,
+        decryptedObject,
+        nextScreen,
+        focusCreditorField,
+      }
       createCreditorFolder(obj)
     }
   }
@@ -133,7 +163,7 @@ const UploadScreen = props => {
   }
   const formSubmission = e => {
     e.preventDefault()
-    console.log("before validation", user)
+    console.log("before validation", secondScreen)
     validate()
   }
 
@@ -197,7 +227,7 @@ const UploadScreen = props => {
     return (
       <div
         className={`${style.uploadedFormButton} ${
-          formValidation
+          formValidationStatus
             ? id.uploaded_form === fileControlId && uploadedForms.length === 0
               ? style.error
               : id.form_attachments === fileControlId &&
@@ -311,8 +341,8 @@ const UploadScreen = props => {
             </Form.Label>
             <Form.Control
               className={`${
-                formValidation &&
-                !user[id.resolution_professional] &&
+                formValidationStatus &&
+                !secondScreen[id.resolution_professional] &&
                 style.error
               } ${style.inputColor}`}
               name={id.resolution_professional}
@@ -331,7 +361,9 @@ const UploadScreen = props => {
             </Form.Label>
             <Form.Control
               className={`${
-                formValidation && !user[id.registration_number] && style.error
+                formValidationStatus &&
+                !secondScreen[id.registration_number] &&
+                style.error
               } ${style.inputColor}`}
               name={id.registration_number}
               type='text'
@@ -349,7 +381,9 @@ const UploadScreen = props => {
             <Form.Label className={style.labelColor}>CREDITOR</Form.Label>
             <Form.Control
               className={`${
-                formValidation && !user[id.creditor] && style.error
+                formValidationStatus &&
+                !secondScreen[id.creditor] &&
+                style.error
               } ${style.inputColor}`}
               name={id.creditor}
               type='text'
@@ -367,7 +401,9 @@ const UploadScreen = props => {
             <Form.Label className={style.labelColor}>FORM NAME</Form.Label>
             <Form.Control
               className={`${
-                formValidation && !user[id.form_name] && style.error
+                formValidationStatus &&
+                !secondScreen[id.form_name] &&
+                style.error
               } ${style.inputColor}`}
               name={id.form_name}
               type='text'

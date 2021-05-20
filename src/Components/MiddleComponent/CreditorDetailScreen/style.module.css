@@ -9,6 +9,10 @@
   letter-spacing: 2px;
   line-height: 1.2;
 }
+.formStyle {
+  line-height: 1;
+  margin-top: 50px;
+}
 
 .formGroup {
   margin-bottom: 30px;
@@ -89,8 +93,8 @@ input[type="radio"] {
 }
 .inputStyle {
   width: 3rem !important;
-  height: 40px;
   border: none;
+  padding: 12px;
 }
 
 .error {
@@ -105,10 +109,10 @@ input[type="radio"] {
     font-size: 31px;
   }
   .labelColor {
-    font-size: 23px;
+    font-size: 17px;
   }
   .inputColor {
-    font-size: 16px !important;
+    font-size: 15px !important;
   }
   .radioLabelColor label {
     font-size: 16px;
@@ -120,8 +124,11 @@ input[type="radio"] {
 
 /*  given css is for tablet screen */
 @media only screen and (min-width: 768px) {
+  .labelColor {
+    font-size: 24px;
+  }
   .inputColor {
-    font-size: 18px !important;
+    font-size: 20px !important;
   }
 }
 
@@ -130,11 +137,14 @@ input[type="radio"] {
   .filingClaim {
     font-size: 35px;
   }
+  .formStyle {
+    width: 30rem;
+  }
   .labelColor {
-    font-size: 18px;
+    font-size: 16px;
   }
   .inputColor {
-    font-size: 14px !important;
+    font-size: 20px !important;
   }
   .radioLabelColor label {
     font-size: 17px;
@@ -145,11 +155,14 @@ input[type="radio"] {
   .filingClaim {
     font-size: 42px;
   }
+  .formStyle {
+    width: 36rem;
+  }
   .labelColor {
-    font-size: 22px;
+    font-size: 15px;
   }
   .inputColor {
-    font-size: 16px !important;
+    font-size: 20px !important;
   }
   .radioLabelColor label {
     font-size: 21px;

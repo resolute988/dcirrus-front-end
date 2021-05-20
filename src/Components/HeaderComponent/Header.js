@@ -105,7 +105,7 @@ const Header = props => {
             </Link>
           </div>
         ) : (
-          <a href='#' className={style.downloadForm}>
+          <a href='/#' className={style.downloadForm}>
             DOWNLOAD IBBI FORMS
           </a>
         )}

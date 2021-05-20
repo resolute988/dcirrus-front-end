@@ -203,49 +203,23 @@ export const getSubFolders = (obj, setSpecialUrl) => {
 }
 
 //  7th api
-export const getCreditorDetails = (creditorDetailsObj, setCreditorId) => {
-  const obj = creditorDetailsObj
-  var query = `creditor=${obj.creditor}&`
-  query += `creditor_claim=${obj.creditor_claim}&`
-  query += `email_id=${obj.email_id}&`
-  query += `phone_number=${obj.phone_number}`
-
-  axios
-    .get(urls.getCreditorDetails + "?" + query)
-    .then(res => {
-      console.log("get CreditorDetails Api response", res)
-
-      if (res.data.length === 0) {
-        createCreditorDetails(obj, setCreditorId)
-      } else {
-        const creditorId = res.data._id
-        setCreditorId(creditorId)
-      }
-    })
-    .catch(err => console.log("err", err))
-}
-//  8th api
-export const createCreditorDetails = (creditorDetailsObj, setCreditorId) => {
-  const obj = creditorDetailsObj
-  //  we are removing this field because we dont require
-  //  delete obj["creditor_claim"]
-  console.log("credetailsDetails", obj)
-  axios
-    .post(urls.creditorDetails, obj)
-    .then(res => {
-      console.log("create CreditorDetails Api response", res)
-      setCreditorId(res.data._id)
-    })
-    .catch(err => console.log("err", err))
-}
-
-//  9th api
 export const createCreditorFolder = obj => {
-  const { creditorInfo, decryptedObject, nextScreen } = obj
-  const folderObject = decryptedObject[creditorInfo.creditor_claim]
+  const { creditorDetails, decryptedObject, nextScreen, focusCreditorField } =
+    obj
+  const { creditor, updateCreditorDetails } = creditorDetails
+  const updateFolderId = folderId => {
+    creditor.c_obj.folderId = folderId
+    updateCreditorDetails(creditor)
+  }
+  const removeCreditorId = () => {
+    creditor.c_id = ""
+    updateCreditorDetails(creditor)
+  }
+  const { c_obj, f_obj } = creditor
+  const folderObject = decryptedObject[c_obj.creditor_claim]
 
   const creditorFolderStructure = {
-    folderPath: folderObject.folderPath + "/" + creditorInfo.creditor,
+    folderPath: folderObject.folderPath + "/" + c_obj.creditor,
     status: "A",
     folderType: "P",
     parentFolderId: folderObject.id,
@@ -259,41 +233,54 @@ export const createCreditorFolder = obj => {
     .then(res => {
       const { data } = res
       console.log("create Creditor Folder Response", res)
-
       if (data && data.messageCode === 201) {
-        const folderId = data.object.split("#")[0]
-        const filesArray = [
-          ...creditorInfo.form_attachments,
-          ...creditorInfo.uploaded_forms,
-        ]
-        var fileUploadArray = []
-        filesArray.map(files => {
-          fileUploadArray.push({
-            attribute1: folderId,
-            attribute2: files.fileName,
-            attribute3: files.fileSize,
+        var confirmationStatus = true
+        if (data.message === "FOLDEREXISTS") {
+          confirmationStatus = window.confirm(
+            "This creditor already exists. Do you want to save the files to the same folder ?"
+          )
+        }
+        if (confirmationStatus === true) {
+          const folderId = data.object.split("#")[0]
+          updateFolderId(folderId)
+          var fileUploadArray = []
+          f_obj.files.map(files => {
+            fileUploadArray.push({
+              attribute1: folderId,
+              attribute2: files.fileName,
+              attribute3: files.fileSize,
+            })
           })
-        })
-        const fileUploadStructure = {
-          listAttribute5: fileUploadArray,
+          const fileUploadStructure = {
+            listAttribute5: fileUploadArray,
+          }
+          const obj_1 = {
+            decryptedObject,
+            fileUploadStructure,
+            nextScreen,
+            creditorDetails,
+          }
+
+          fileUpload(obj_1)
+        } else {
+          removeCreditorId()
+          focusCreditorField()
         }
-        const obj_1 = {
-          decryptedObject,
-          fileUploadStructure,
-          nextScreen,
-          creditorInfo,
-        }
-        fileUpload(obj_1)
       }
     })
     .catch(err => {
       console.error("error", err)
     })
 }
-//  10th api
+//  8th api
 export const fileUpload = obj => {
-  const { decryptedObject, fileUploadStructure, nextScreen, creditorInfo } = obj
-  console.log("fileUpload Array", fileUploadStructure)
+  const { decryptedObject, fileUploadStructure, nextScreen, creditorDetails } =
+    obj
+  const { creditor, updateCreditorDetails } = creditorDetails
+  const updateUploadStatus = () => {
+    creditor.u_status = true
+    updateCreditorDetails(creditor)
+  }
   axios
     .post(urls.fileUpload, fileUploadStructure, {
       headers: {
@@ -317,30 +304,16 @@ export const fileUpload = obj => {
 
         const fileDetails = [...fileUploadStructure.listAttribute5]
         console.log("fileDetails", fileDetails)
-        //  from here
+        //  we have to shift this code when our file uploading api started working properly
 
-        const fileDetailsArray = []
-        //  destructure some fields from object
-        const { formName, creditorId } = creditorInfo
-
-        fileDetails.map(fileObj => {
-          fileDetailsArray.push({
-            creditorId: creditorId,
-            formName: formName,
-            folderId: fileObj.attribute1,
-            fileName: fileObj.attribute2,
-            fileSize: fileObj.attribute3,
-          })
-        })
-        createFileDetails(fileDetailsArray)
-        //  to here you have to copy this code
-
+        getCreditorDetails(creditorDetails)
+        updateUploadStatus()
         const obj_1 = {
           results,
           decryptedObject,
           ...fileDetails,
           nextScreen,
-          creditorInfo,
+          creditorDetails,
         }
         uploadToAws(obj_1)
       }
@@ -349,10 +322,58 @@ export const fileUpload = obj => {
       console.error("error", err)
     })
 }
+//  9th api
+export const getCreditorDetails = creditorDetails => {
+  const { creditor, updateCreditorDetails } = creditorDetails
+  const obj = creditor.c_obj
+  var query = `creditor=${obj.creditor}&`
+  query += `creditor_claim=${obj.creditor_claim}&`
+  query += `email_id=${obj.email_id}&`
+  query += `phone_number=${obj.phone_number}`
+
+  const updateCreditorId = (creditor, creditorId) => {
+    creditor.c_id = creditorId
+    updateCreditorDetails(creditor)
+  }
+  axios
+    .get(urls.getCreditorDetails + "?" + query)
+    .then(res => {
+      console.log("get CreditorDetails Api response", res)
+
+      if (res.data.length === 0) {
+        createCreditorDetails(creditor, updateCreditorId)
+      } else {
+        const creditorId = res.data._id
+        updateCreditorId(creditor, creditorId)
+      }
+    })
+    .catch(err => console.log("err", err))
+}
+//  10th api
+export const createCreditorDetails = (creditor, updateCreditorId) => {
+  const obj = creditor.c_obj
+
+  //  we are removing this field because we dont require
+  //  delete obj["creditor_claim"]
+  console.log("creditor", obj)
+  axios
+    .post(urls.creditorDetails, obj)
+    .then(res => {
+      console.log("create Creditor Api response", res)
+      const creditorId = res.data._id
+      updateCreditorId(creditor, creditorId)
+    })
+    .catch(err => console.log("err", err))
+}
 //  11th api
 const uploadToAws = obj => {
-  const { results, decryptedObject, listAttribute5, nextScreen, creditorInfo } =
-    obj
+  const {
+    results,
+    decryptedObject,
+    listAttribute5,
+    nextScreen,
+    creditorDetails,
+  } = obj
   var feedbackArray = []
 
   results.map((eachUrl, index) => {
@@ -384,7 +405,7 @@ const uploadToAws = obj => {
             decryptedObject,
             feedbackArray,
             nextScreen,
-            creditorInfo,
+            creditorDetails,
           }
           updateMetaData(obj_1)
         }
@@ -397,7 +418,13 @@ const uploadToAws = obj => {
 }
 //  12th api
 export const updateMetaData = obj => {
-  const { decryptedObject, feedbackArray, nextScreen, creditorInfo } = obj
+  const { decryptedObject, feedbackArray, nextScreen, creditorDetails } = obj
+  const { creditor, updateCreditorDetails } = creditorDetails
+  //  u_status is true and creditor_id is present only then update the files in our database
+  const updateUploadStatus = () => {
+    creditor.u_status = true
+    updateCreditorDetails(creditor)
+  }
   if (feedbackArray.length === 0) {
     console.log("update meta data files already uploaded")
   } else {
@@ -421,8 +448,7 @@ export const updateMetaData = obj => {
           console.log(`${data.object.length} files sucessfully uploaded`, data)
           notification.filesUploaded(`${data.object.length} files`)
           //  if everything is fine then save the file related information to our database
-          // createFileDetails(fileDetailsArray)
-
+          updateUploadStatus()
           nextScreen()
         }
       })
@@ -432,8 +458,30 @@ export const updateMetaData = obj => {
       })
   }
 }
-
 //  13th api
+export const updateUploadingFiles = creditorDetails => {
+  console.log("update uploading files", creditorDetails)
+  const { creditor } = creditorDetails
+  const { c_obj } = creditor
+  const { files } = creditor.f_obj
+
+  const fileDetailsArray = []
+  //  destructure some fields from object
+
+  const c_id = creditor.c_id
+  const form_name = creditor.f_obj.form_name
+  files.map(fileObj => {
+    fileDetailsArray.push({
+      creditorId: c_id,
+      formName: form_name,
+      folderId: c_obj.folderId,
+      fileName: fileObj.fileName,
+      fileSize: fileObj.fileSize,
+    })
+  })
+  createFileDetails(fileDetailsArray)
+}
+//  14th api
 export const createFileDetails = fileDetails => {
   console.log("fileDetails obj", fileDetails)
   axios

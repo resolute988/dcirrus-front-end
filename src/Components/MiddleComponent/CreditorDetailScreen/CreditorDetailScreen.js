@@ -13,11 +13,12 @@ import { useLocation } from "react-router-dom"
 
 //  this is the middleComponent
 const Middle = props => {
+  const location = useLocation()
   //  this is the function to change the screen
-  const { nextScreen, creditorDetails, updateCreditorDetails, setCreditorId } =
-    props
+
   //  in this state we store our fields values
-  const [user, setUser] = useState({})
+  const [firstScreen, setFirstScreen] = useState({})
+  const { nextScreen, creditorDetails } = props.methods
 
   //  these are the ids of our form fields to avoid confustion
   const id = {
@@ -49,8 +50,8 @@ const Middle = props => {
       document.getElementById(id_field).value = defaultValues[id_field]
     })
     console.log("default values", defaultValues)
-    setUser({
-      ...user,
+    setFirstScreen({
+      ...firstScreen,
       ...defaultValues,
     })
   }
@@ -67,17 +68,22 @@ const Middle = props => {
     //  here we have to update our main state that is user object
     //  in this object we will get all our form values
     //  we are doing this because by default we are selecting one radio value
-    setUser({
-      ...user,
+    const creditor_claim = {
       [operationalCreditor.getAttribute("name")]:
         operationalCreditor.getAttribute("value"),
+    }
+    //  fetch encryptedUrl from url
+    var encryptedUrl = location.search.split("=")[1]
+    //  Decrypt
+    const decryptedObject = encryption.decrypt(encryptedUrl)
+    const userId = { userId: decryptedObject.uId }
+
+    setFirstScreen({
+      ...firstScreen,
+      ...creditor_claim,
+      ...userId,
     })
   }
-  var encryptedUrl = useLocation().search.split("=")[1]
-
-  //  Decrypt
-  var decryptedObject = encryption.decrypt(encryptedUrl)
-
   useEffect(() => {
     initialization()
   }, [])
@@ -86,7 +92,7 @@ const Middle = props => {
   //  its a generic function
   const handleChange = e => {
     const { name, value } = e.target
-    setUser({ ...user, [name]: value })
+    setFirstScreen({ ...firstScreen, [name]: value })
   }
   const resetForm = () => {
     document.getElementById(id.form_id).reset()
@@ -101,11 +107,8 @@ const Middle = props => {
   }
 
   // this state is dedicated to know whether we have to start validation process or not
-  const [formValidation, setFormValidation] = useState(false)
+  const [formValidationStatus, setFormValidationStatus] = useState(false)
   //  it tells us whether validation is started or not
-  const changeFormValidationStatus = validationStatus => {
-    setFormValidation(validationStatus)
-  }
   //  this is the place where real validation happens
   const validate = () => {
     const {
@@ -116,7 +119,7 @@ const Middle = props => {
       [id.last_name]: last_name,
       [id.email_id]: email_id,
       [id.phone_number]: phone_number,
-    } = user
+    } = firstScreen
 
     if (
       resolution_professional === undefined ||
@@ -134,16 +137,18 @@ const Middle = props => {
       phone_number === undefined ||
       phone_number === ""
     ) {
-      changeFormValidationStatus(true)
+      setFormValidationStatus(true)
     } else {
       //  now everything is alright
       //  fields are validated
-      changeFormValidationStatus(false)
+      setFormValidationStatus(false)
 
-      console.log("these are the form fields after validation", user)
-      //      console.log("user saved", { ...creditorDetails, ...user })
+      console.log("these are the form fields after validation", firstScreen)
       // here we are saving our creditor information
-      updateCreditorDetails({ ...creditorDetails, ...user })
+      const { creditor, updateCreditorDetails } = creditorDetails
+
+      creditor["c_obj"] = firstScreen
+      updateCreditorDetails(creditor)
       //  if everything is alright we are opening the model for otp verification
       //  before opening the modal we have to reset the values
       setOtpCode("")
@@ -154,15 +159,12 @@ const Middle = props => {
       autoFocus()
       //  we have to call our database api to check whether current creditor
       //  is present or not if yes then save their id
-      user["userId"] = decryptedObject.uId
-      getCreditorDetails(user, setCreditorId)
       //  we are resetting the form
       //      resetForm()
     }
   }
   const formSubmission = e => {
     e.preventDefault()
-    console.log("form fields", user)
     validate()
   }
   //  these states are for the modal using for otp verification
@@ -177,18 +179,18 @@ const Middle = props => {
   const [otpVerification, setOtpVerification] = useState(true)
 
   return (
-    <div className='ml-5'>
-      <Container fluid className='my-4 mr-2'>
+    <div>
+      <Container fluid className=' mr-2'>
         <Row className={style.filingClaim}>Filing claims just</Row>
         <Row className={style.filingClaim}>became easier.</Row>
       </Container>
       <Form
         id={id.form_id}
-        style={{ lineHeight: "1", marginTop: "50px" }}
+        className={style.formStyle}
         onSubmit={formSubmission}
       >
         <Row>
-          <Col xs='10'>
+          <Col xs='10' sm='5' lg='6'>
             <Form.Group
               onChange={handleChange}
               controlId={id.resolution_professional}
@@ -199,8 +201,8 @@ const Middle = props => {
               </Form.Label>
               <Form.Control
                 className={`${
-                  formValidation &&
-                  !user[id.resolution_professional] &&
+                  formValidationStatus &&
+                  !firstScreen[id.resolution_professional] &&
                   style.error
                 } ${style.inputColor}`}
                 name={id.resolution_professional}
@@ -208,7 +210,7 @@ const Middle = props => {
               />
             </Form.Group>
           </Col>
-          <Col xs='10'>
+          <Col xs='10' sm='5' lg='6'>
             <Form.Group
               controlId={id.registration_number}
               onChange={handleChange}
@@ -219,7 +221,9 @@ const Middle = props => {
               </Form.Label>
               <Form.Control
                 className={`${
-                  formValidation && !user[id.registration_number] && style.error
+                  formValidationStatus &&
+                  !firstScreen[id.registration_number] &&
+                  style.error
                 } ${style.inputColor}`}
                 name={id.registration_number}
                 type='text'
@@ -237,7 +241,9 @@ const Middle = props => {
               <Form.Label className={style.labelColor}>CREDITOR</Form.Label>
               <Form.Control
                 className={`${
-                  formValidation && !user[id.creditor] && style.error
+                  formValidationStatus &&
+                  !firstScreen[id.creditor] &&
+                  style.error
                 } ${style.inputColor}`}
                 name={id.creditor}
                 type='text'
@@ -246,7 +252,7 @@ const Middle = props => {
           </Col>
         </Row>
         <Row>
-          <Col xs='10'>
+          <Col xs='10' sm='5' lg='6'>
             <Form.Group
               className={style.formGroup}
               controlId={id.first_name}
@@ -255,14 +261,16 @@ const Middle = props => {
               <Form.Label className={style.labelColor}>FIRST NAME</Form.Label>
               <Form.Control
                 className={`${
-                  formValidation && !user[id.first_name] && style.error
+                  formValidationStatus &&
+                  !firstScreen[id.first_name] &&
+                  style.error
                 } ${style.inputColor}`}
                 name={id.first_name}
                 type='text'
               />
             </Form.Group>
           </Col>
-          <Col xs='10'>
+          <Col xs='10' sm='5' lg='6'>
             <Form.Group
               className={style.formGroup}
               controlId={id.last_name}
@@ -271,7 +279,9 @@ const Middle = props => {
               <Form.Label className={style.labelColor}>LAST NAME</Form.Label>
               <Form.Control
                 className={`${
-                  formValidation && !user[id.last_name] && style.error
+                  formValidationStatus &&
+                  !firstScreen[id.last_name] &&
+                  style.error
                 } ${style.inputColor}`}
                 name={id.last_name}
                 type='text'
@@ -289,7 +299,9 @@ const Middle = props => {
               <Form.Label className={style.labelColor}>EMAIL ID</Form.Label>
               <Form.Control
                 className={`${
-                  formValidation && !user[id.email_id] && style.error
+                  formValidationStatus &&
+                  !firstScreen[id.email_id] &&
+                  style.error
                 } ${style.inputColor}`}
                 name={id.email_id}
                 type='email'
@@ -307,7 +319,9 @@ const Middle = props => {
               <Form.Label className={style.labelColor}>PHONE NUMBER</Form.Label>
               <Form.Control
                 className={`${
-                  formValidation && !user[id.phone_number] && style.error
+                  formValidationStatus &&
+                  !firstScreen[id.phone_number] &&
+                  style.error
                 } ${style.inputColor}`}
                 name={id.phone_number}
                 type='tel'

@@ -8,9 +8,16 @@ class CreditorScreen extends Component {
     super(props)
 
     this.state = {
-      creditorDetails: {},
+      creditorDetails: {
+        c_obj: {},
+        c_id: "",
+        f_obj: {
+          form_name: "",
+          files: [],
+        },
+        u_status: false,
+      },
     }
-    console.log("creditor screen", this.props)
   }
 
   //  our creditor details
@@ -19,13 +26,16 @@ class CreditorScreen extends Component {
   }
   render() {
     const { login } = this.props
+
     return (
       <div>
         <Header />
         <MiddleComponent
           {...this.props.match.params}
-          creditorDetails={this.state.creditorDetails}
-          updateCreditorDetails={this.updateCreditorDetails}
+          creditorDetails={{
+            creditor: this.state.creditorDetails,
+            updateCreditorDetails: this.updateCreditorDetails,
+          }}
           login={login}
         />
         <Footer />

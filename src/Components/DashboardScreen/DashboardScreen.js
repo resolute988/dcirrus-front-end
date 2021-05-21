@@ -97,6 +97,7 @@ const DashboardScreen = props => {
                   </Button>
                 ) : (
                   <Form.Control
+                    style={{ borderRadius: "30px" }}
                     onBlur={() => {
                       setNewFolder("")
                       setToggleCreateFolder(!toggleCreateFolder)

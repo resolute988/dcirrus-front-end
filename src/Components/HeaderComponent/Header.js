@@ -33,6 +33,7 @@ const Header = props => {
         <a href='/'>
           <img alt='Resolute' className={style.logo} src={logo} />
         </a>
+        {/*  for smaller screens */}
         <div className={style.hamburgerMenu}>
           <Hamburger toggled={isSidebarOpen} toggle={setSidebarOpen} />
           {login ? (
@@ -67,17 +68,25 @@ const Header = props => {
               classes={isSidebarOpen ? style.sidebarOpen : style.sidebarClose}
             >
               <Item bgColor='black'>
-                <Button variant='secondary' block>
+                <Button
+                  variant='info'
+                  onClick={() => {
+                    window.open("https://ibbi.gov.in/home/downloads", "new_tab")
+                  }}
+                  block
+                >
                   DOWNLOAD IBBI FORMS
                 </Button>
               </Item>
             </Sidebar>
           )}
         </div>
-
+        {/*  for larger screens */}
         {login ? (
           <div className={style.rightSideBar}>
-            <Link className={style.contactUs}>CONTACT US</Link>
+            <Link to='#' className={style.contactUs}>
+              CONTACT US
+            </Link>
             <Link>
               <img src={notification} alt='' />
             </Link>
@@ -105,7 +114,11 @@ const Header = props => {
             </Link>
           </div>
         ) : (
-          <a href='/#' className={style.downloadForm}>
+          <a
+            href='https://ibbi.gov.in/home/downloads'
+            target='new_tab'
+            className={style.downloadForm}
+          >
             DOWNLOAD IBBI FORMS
           </a>
         )}

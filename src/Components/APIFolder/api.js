@@ -327,6 +327,7 @@ export const getCreditorDetails = creditorDetails => {
   const { creditor, updateCreditorDetails } = creditorDetails
   const obj = creditor.c_obj
   var query = `creditor=${obj.creditor}&`
+  query += `resolution_professional=${obj.resolution_professional}&`
   query += `creditor_claim=${obj.creditor_claim}&`
   query += `email_id=${obj.email_id}&`
   query += `phone_number=${obj.phone_number}`

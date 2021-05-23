@@ -30,7 +30,7 @@
   font-size: 25px;
   letter-spacing: 1px;
 }
-.contactUs:focus {
+.contactUs:hover {
   text-decoration: none;
   color: #3d3c40;
 }
@@ -100,65 +100,3 @@
 /*  given css is for desktop screen */
 @media only screen and (min-width: 1200px) {
 }
-
-/* @media only screen and (min-width: 250px) {
-  .navbar {
-    padding: 10px;
-    text-align: center;
-    flex-wrap: nowrap;
-  }
-  .logo {
-    width: 125px;
-  }
-  .downloadForm {
-    font-size: 10px;
-  }
-}
-
-@media only screen and (min-width: 400px) {
-  .navbar {
-    padding: 15px;
-  }
-  .logo {
-    width: 150px;
-  }
-  .downloadForm {
-    font-size: 16px;
-  }
-}
-
-@media only screen and (min-width: 500px) {
-  .navbar {
-    padding: 0px 30px;
-  }
-  .logo {
-    width: 170px;
-  }
-  .downloadForm {
-    font-size: 18px;
-  }
-}
-
-@media only screen and (min-width: 700px) {
-  .navbar {
-    padding: 0px 45px;
-  }
-  .logo {
-    width: 220px;
-  }
-  .downloadForm {
-    font-size: 30px;
-  }
-}
-
-@media only screen and (min-width: 900px) {
-  .navbar {
-    padding: 0px 80px;
-  }
-  .logo {
-    width: 185px;
-  }
-  .downloadForm {
-    font-size: 30px;
-  }
-} */

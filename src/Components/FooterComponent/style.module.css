@@ -1,92 +1,45 @@
 .footer {
   background-color: rgb(61, 60, 64);
-  display: flex;
-  justify-content: space-between;
-  padding-left: 100px;
-  padding-top: 10px;
+  padding: 15px;
+  align-items: baseline;
 }
-.footerChild1 {
+.footer > div {
   color: white;
   font-weight: 400;
   font-size: 20px;
   letter-spacing: 3px;
-}
-.footerChild2 {
-  display: flex;
+  margin: 5px auto;
+  text-align: center;
 }
 .footerChild2Items {
   color: white;
-  font-weight: 400;
-  font-size: 20px;
-  letter-spacing: 3px;
 }
-.footerChild3 {
-  display: flex;
-  align-items: center;
-}
-.footerChild3Items {
+.footerChild2Items:hover {
   color: white;
-  font-weight: 400;
-  font-size: 22px;
-  letter-spacing: 3px;
+  text-decoration: none;
 }
-.footerChild3ItemsImage {
-  padding-left: 10px;
+.footerChild4ItemsImage {
+  width: 155px;
 }
-/* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 700px) {
-  .footer {
-    flex-direction: column;
-    text-align: center;
-    padding: 0px;
-  }
-  .footerChild1 {
-    font-size: 20px;
-    padding: 16px;
-  }
-  .footerChild2 {
-    flex-direction: column;
-  }
-  .footerChild2Items {
-    padding: 0px;
-    font-size: 20px;
-  }
-  .footerChild3 {
-    flex-direction: column;
+
+/*  by default above css for extra small size */
+/*  given css is for larger mobile screen */
+@media only screen and (min-width: 576px) {
+  .footerChild4ItemsImage {
+    width: 180px;
   }
 }
 
-/* Small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (min-width: 700px) {
-  .footer {
-    flex-direction: row;
-    justify-content: space-around;
-  }
-  .footerChild1 {
-    font-size: 15px;
-    letter-spacing: 2px;
-  }
-  .footerChild2 {
-    align-items: center;
-  }
-  .footerChild2Items {
-    font-size: 15px;
-    letter-spacing: 2px;
-    margin-right: 20px;
-  }
+/*  given css is for tablet screen */
+@media only screen and (min-width: 768px) {
 }
 
-/* Medium devices (landscape tablets, 768px and up) */
-@media only screen and (min-width: 900px) {
-  .footer {
-    padding: 20px;
+/*  given css is for laptop screen */
+@media only screen and (min-width: 992px) {
+  .footerChild4ItemsImage {
+    width: 200px;
   }
-  .footerChild1 {
-    font-size: 24px;
-    padding: 16px;
-  }
-  .footerChild2Items {
-    font-size: 24px;
-    margin-right: 30px;
-  }
+}
+/*  given css is for desktop screen */
+@media only screen and (min-width: 1200px) {
 }

@@ -3,7 +3,7 @@
 }
 
 .loginScreen {
-  margin-left: 50px;
+  margin-left: 0vw;
 }
 .formClass {
   margin-top: 50px;
@@ -55,6 +55,13 @@
 }
 /*  by default above css for extra small size */
 /*  given css is for small mobile screen */
+
+@media only screen and (min-width: 350px) {
+  .loginScreen {
+    margin-left: 10vw;
+  }
+}
+
 @media only screen and (min-width: 576px) {
   .filingClaim {
     font-size: 35px;
@@ -72,6 +79,9 @@
 @media only screen and (min-width: 992px) {
   .filingClaim {
     font-size: 34px;
+  }
+  .loginScreen {
+    margin-left: 0vw;
   }
 }
 /*  given css is for desktop screen */

@@ -1,12 +1,15 @@
-import { Row, Col, Form, Button } from "react-bootstrap"
+import { Row, Col, Form, Button, Modal } from "react-bootstrap"
 import style from "./style.module.css"
 import React, { useState, useEffect } from "react"
 import dragIcon from "../../Assets/drag_and_drop.png"
 import close from "../../Assets/close_light_bg.png"
-import { createCreditorFolder, updateUploadingFiles } from "../../APIFolder/api"
+import {
+  createCreditorFolder,
+  updateUploadingFiles,
+  onConfirmation,
+} from "../../APIFolder/api"
 
 import encryption from "../../Utlitiy/encryption"
-
 import { useLocation } from "react-router-dom"
 
 //  this is the middleComponent
@@ -45,9 +48,9 @@ const UploadScreen = props => {
 
   //  these are the ids of our form fields to avoid confustion
   const id = {
-    resolution_professional: "resolution_professional",
-    registration_number: "registration_number",
     creditor: "creditor",
+    amount_claimed: "amount_claimed",
+    amount_admitted: "amount_admitted",
     form_name: "form_name",
     form_id: "file_claim",
     uploaded_form: "uploaded_forms",
@@ -60,8 +63,6 @@ const UploadScreen = props => {
     const { c_obj } = creditorDetails.creditor
     //  we have to remove this object this is just for testing purpose
     const defaultValues = {
-      [id.resolution_professional]: c_obj[id.resolution_professional],
-      [id.registration_number]: c_obj[id.registration_number],
       [id.creditor]: c_obj[id.creditor],
     }
 
@@ -84,7 +85,8 @@ const UploadScreen = props => {
   //  this is the arrow function to handle any change happenend in any input
   //  its a generic function
   const handleChange = e => {
-    const { name, value } = e.target
+    var { name, value } = e.target
+    value = typeof value === "string" ? value.toLowerCase() : value
     setSecondScreen({ ...secondScreen, [name]: value })
   }
 
@@ -99,17 +101,18 @@ const UploadScreen = props => {
   //  this is the place where real validation happens
   const validate = () => {
     const {
-      [id.resolution_professional]: resolution_professional,
-      [id.registration_number]: registration_number,
       [id.creditor]: creditor_name,
+      [id.amount_claimed]: amount_claimed,
+      [id.amount_admitted]: amount_admitted,
+
       [id.form_name]: form_name,
     } = secondScreen
 
     if (
-      resolution_professional === undefined ||
-      resolution_professional === "" ||
-      registration_number === undefined ||
-      registration_number === "" ||
+      amount_claimed === undefined ||
+      amount_claimed === "" ||
+      amount_admitted === undefined ||
+      amount_admitted === "" ||
       creditor_name === undefined ||
       creditor_name === "" ||
       form_name === undefined ||
@@ -127,13 +130,13 @@ const UploadScreen = props => {
       const { creditor, updateCreditorDetails } = creditorDetails
 
       const form_name = secondScreen[id.form_name]
-      const registration_number = secondScreen[id.registration_number]
-      const resolution_professional = secondScreen[id.resolution_professional]
+      const amount_claimed = secondScreen[id.amount_claimed]
+      const amount_admitted = secondScreen[id.amount_admitted]
       const creditor_name = secondScreen[id.creditor]
 
       creditor.c_obj[id.creditor] = creditor_name
-      creditor.c_obj[id.registration_number] = registration_number
-      creditor.c_obj[id.resolution_professional] = resolution_professional
+      creditor.c_obj[id.amount_claimed] = amount_claimed
+      creditor.c_obj[id.amount_admitted] = amount_admitted
 
       creditor.f_obj.form_name = form_name
       creditor.f_obj.files = [...uploadedForms, ...formAttachments]
@@ -148,6 +151,8 @@ const UploadScreen = props => {
         decryptedObject,
         nextScreen,
         focusCreditorField,
+        confirmationStatus,
+        showModal,
       }
       createCreditorFolder(obj)
     }
@@ -184,7 +189,7 @@ const UploadScreen = props => {
     }
 
     Object.keys(files).map(fileIndex => {
-      const fileName = files[fileIndex].name
+      const fileName = files[fileIndex].name.toLowerCase()
       const fileSize = files[fileIndex].size
       const fileObj = { fileName, fileSize }
       //  if file name is already present then dont add again into the array
@@ -321,6 +326,34 @@ const UploadScreen = props => {
     )
   }
 
+  const [show, setShow] = useState(false)
+
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
+  const [confirmationStatus, setConfirmationStatus] = useState("")
+  useEffect(() => {
+    if (confirmationStatus !== "") {
+      console.log("yes", confirmationStatus, creditorDetails)
+      const obj = {
+        creditorDetails,
+        decryptedObject,
+        nextScreen,
+        focusCreditorField,
+        confirmationStatus,
+      }
+      onConfirmation(obj)
+    }
+  }, [confirmationStatus])
+
+  const showModal = folderExist => {
+    if (folderExist === true) {
+      setConfirmationStatus("")
+      handleShow()
+    } else {
+      setConfirmationStatus("true")
+    }
+  }
+
   //  this our main component our entire form
   return (
     <Form
@@ -329,48 +362,6 @@ const UploadScreen = props => {
       onSubmit={formSubmission}
     >
       {/*  the first 3 rows are our form fields */}
-      <Row>
-        <Col xs='11' sm='5' md='5' lg='5' xl='5'>
-          <Form.Group
-            onChange={handleChange}
-            controlId={id.resolution_professional}
-            className={style.formGroup}
-          >
-            <Form.Label className={style.labelColor}>
-              RESOLUTION PROFESSIONAL
-            </Form.Label>
-            <Form.Control
-              className={`${
-                formValidationStatus &&
-                !secondScreen[id.resolution_professional] &&
-                style.error
-              } ${style.inputColor}`}
-              name={id.resolution_professional}
-              type='text'
-            />
-          </Form.Group>
-        </Col>
-        <Col xs='11' sm='6' md='6' lg='5' xl='5'>
-          <Form.Group
-            controlId={id.registration_number}
-            onChange={handleChange}
-            className={style.formGroup}
-          >
-            <Form.Label className={style.labelColor}>
-              REGISTRATION NUMBER
-            </Form.Label>
-            <Form.Control
-              className={`${
-                formValidationStatus &&
-                !secondScreen[id.registration_number] &&
-                style.error
-              } ${style.inputColor}`}
-              name={id.registration_number}
-              type='text'
-            />
-          </Form.Group>
-        </Col>
-      </Row>
       <Row>
         <Col xs='11' md='7' xl='7'>
           <Form.Group
@@ -387,6 +378,53 @@ const UploadScreen = props => {
               } ${style.inputColor}`}
               name={id.creditor}
               type='text'
+            />
+          </Form.Group>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col xs='11' sm='5' md='5' lg='5' xl='5'>
+          <Form.Group
+            onChange={handleChange}
+            controlId={id.amount_claimed}
+            className={style.formGroup}
+          >
+            <Form.Label className={style.labelColor}>
+              Amount Claimed (Rs.)
+            </Form.Label>
+            <Form.Control
+              className={`${
+                formValidationStatus &&
+                !secondScreen[id.amount_claimed] &&
+                style.error
+              } ${style.inputColor}`}
+              name={id.amount_claimed}
+              type='number'
+              step='0.01'
+              min='0'
+            />
+          </Form.Group>
+        </Col>
+        <Col xs='11' sm='6' md='6' lg='5' xl='5'>
+          <Form.Group
+            controlId={id.amount_admitted}
+            onChange={handleChange}
+            className={style.formGroup}
+          >
+            <Form.Label className={style.labelColor}>
+              Amount Admitted (Rs.)
+            </Form.Label>
+            <Form.Control
+              className={`${
+                formValidationStatus &&
+                !secondScreen[id.amount_admitted] &&
+                style.error
+              } ${style.inputColor}`}
+              name={id.amount_admitted}
+              type='number'
+              step='0.01'
+              min='0'
             />
           </Form.Group>
         </Col>
@@ -488,6 +526,41 @@ const UploadScreen = props => {
           </Button>
         </Col>
       </Row>
+
+      <Modal
+        show={show}
+        onHide={handleClose}
+        backdrop='static'
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>ARE YOU SURE ?</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          This creditor already exists. Do you want to save the files to the
+          same folder ?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant='secondary'
+            onClick={() => {
+              setConfirmationStatus("true")
+              handleClose()
+            }}
+          >
+            YES
+          </Button>
+          <Button
+            variant='primary'
+            onClick={() => {
+              setConfirmationStatus("false")
+              handleClose()
+            }}
+          >
+            NO
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Form>
   )
 }

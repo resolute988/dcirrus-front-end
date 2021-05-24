@@ -3,7 +3,7 @@ import axios from "axios"
 import auth from "../Authentication/Auth"
 import notification from "../Utlitiy/notification"
 import encryption from "../Utlitiy/encryption"
-
+import { render } from "react-dom"
 //  ist api
 export const getCaptcha = setCaptcha => {
   axios
@@ -204,18 +204,14 @@ export const getSubFolders = (obj, setSpecialUrl) => {
 
 //  7th api
 export const createCreditorFolder = obj => {
-  const { creditorDetails, decryptedObject, nextScreen, focusCreditorField } =
-    obj
+  const { creditorDetails, decryptedObject, showModal } = obj
   const { creditor, updateCreditorDetails } = creditorDetails
   const updateFolderId = folderId => {
     creditor.c_obj.folderId = folderId
     updateCreditorDetails(creditor)
   }
-  const removeCreditorId = () => {
-    creditor.c_id = ""
-    updateCreditorDetails(creditor)
-  }
-  const { c_obj, f_obj } = creditor
+
+  const { c_obj } = creditor
   const folderObject = decryptedObject[c_obj.creditor_claim]
 
   const creditorFolderStructure = {
@@ -234,43 +230,55 @@ export const createCreditorFolder = obj => {
       const { data } = res
       console.log("create Creditor Folder Response", res)
       if (data && data.messageCode === 201) {
-        var confirmationStatus = true
-        if (data.message === "FOLDEREXISTS") {
-          confirmationStatus = window.confirm(
-            "This creditor already exists. Do you want to save the files to the same folder ?"
-          )
-        }
-        if (confirmationStatus === true) {
-          const folderId = data.object.split("#")[0]
-          updateFolderId(folderId)
-          var fileUploadArray = []
-          f_obj.files.map(files => {
-            fileUploadArray.push({
-              attribute1: folderId,
-              attribute2: files.fileName,
-              attribute3: files.fileSize,
-            })
-          })
-          const fileUploadStructure = {
-            listAttribute5: fileUploadArray,
-          }
-          const obj_1 = {
-            decryptedObject,
-            fileUploadStructure,
-            nextScreen,
-            creditorDetails,
-          }
-
-          fileUpload(obj_1)
-        } else {
-          removeCreditorId()
-          focusCreditorField()
-        }
+        const folderId = data.object.split("#")[0]
+        updateFolderId(folderId)
+        const folderExist = data.message === "FOLDEREXISTS"
+        showModal(folderExist)
       }
     })
     .catch(err => {
       console.error("error", err)
     })
+}
+export const onConfirmation = obj => {
+  const {
+    creditorDetails,
+    decryptedObject,
+    nextScreen,
+    focusCreditorField,
+    confirmationStatus,
+  } = obj
+  const { creditor, updateCreditorDetails } = creditorDetails
+  const { c_obj, f_obj } = creditor
+  const folderId = c_obj.folderId
+  const removeCreditorId = () => {
+    creditor.c_id = ""
+    updateCreditorDetails(creditor)
+  }
+  if (confirmationStatus === "true") {
+    var fileUploadArray = []
+    f_obj.files.map(files => {
+      fileUploadArray.push({
+        attribute1: folderId,
+        attribute2: files.fileName,
+        attribute3: files.fileSize,
+      })
+    })
+    const fileUploadStructure = {
+      listAttribute5: fileUploadArray,
+    }
+    const obj_1 = {
+      decryptedObject,
+      fileUploadStructure,
+      nextScreen,
+      creditorDetails,
+    }
+
+    fileUpload(obj_1)
+  } else {
+    removeCreditorId()
+    setTimeout(() => focusCreditorField(), 500)
+  }
 }
 //  8th api
 export const fileUpload = obj => {

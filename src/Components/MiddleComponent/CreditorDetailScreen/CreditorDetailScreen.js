@@ -91,7 +91,8 @@ const Middle = props => {
   //  this is the arrow function to handle any change happenend in any input
   //  its a generic function
   const handleChange = e => {
-    const { name, value } = e.target
+    var { name, value } = e.target
+    value = typeof value === "string" ? value.toLowerCase() : value
     setFirstScreen({ ...firstScreen, [name]: value })
   }
   const resetForm = () => {

@@ -305,16 +305,16 @@ export const fileUpload = obj => {
         }
         //  if files are already uploaded then server return 0 in attribute4
         //  so we are removing those files from updating to DCirrus platform
-        results = results.filter(obj => obj.attribute4 === "0")
+
+        //  results = results.filter(obj => obj.attribute4 === "0")
 
         console.log("aws url", results)
 
         const fileDetails = [...fileUploadStructure.listAttribute5]
         console.log("fileDetails", fileDetails)
         //  we have to shift this code when our file uploading api started working properly
-
         getCreditorDetails(creditorDetails)
-        updateUploadStatus()
+
         const obj_1 = {
           results,
           decryptedObject,
@@ -375,20 +375,13 @@ export const createCreditorDetails = (creditor, updateCreditorId) => {
 }
 //  11th api
 const uploadToAws = obj => {
-  const {
-    results,
-    decryptedObject,
-    listAttribute5,
-    nextScreen,
-    creditorDetails,
-  } = obj
+  const { results, decryptedObject, fileDetails, nextScreen, creditorDetails } =
+    obj
   var feedbackArray = []
 
   results.map((eachUrl, index) => {
-    // .replace("http", "https")
-
     axios
-      .put(results[index].attribute3)
+      .put(results[index].attribute3.replace("http", "https"))
       .then(res => {
         //  update metaData
         console.log("aws response ok", res)
@@ -398,7 +391,7 @@ const uploadToAws = obj => {
           parentFolderId: results[index].attribute1,
           storageFileName: results[index].attribute2,
           fileName: results[index].attribute2,
-          fileSize: listAttribute5[index].attribute3,
+          fileSize: fileDetails.listAttribute5[index].attribute3,
           fileType: results[index].attribute2.split(".")[1],
           status: "A",
           deleteStatus: "",
@@ -424,11 +417,10 @@ const uploadToAws = obj => {
         console.log("aws error", err)
       })
   })
-  if (results.length === 0) updateMetaData(decryptedObject, feedbackArray)
 }
 //  12th api
 export const updateMetaData = obj => {
-  const { decryptedObject, feedbackArray, nextScreen, creditorDetails } = obj
+  const { decryptedObject, feedbackArray, creditorDetails } = obj
   const { creditor, updateCreditorDetails } = creditorDetails
   //  u_status is true and creditor_id is present only then update the files in our database
   const updateUploadStatus = () => {
@@ -459,7 +451,6 @@ export const updateMetaData = obj => {
           notification.filesUploaded(`${data.object.length} files`)
           //  if everything is fine then save the file related information to our database
           updateUploadStatus()
-          nextScreen()
         }
       })
       .catch(err => {
@@ -469,7 +460,8 @@ export const updateMetaData = obj => {
   }
 }
 //  13th api
-export const updateUploadingFiles = creditorDetails => {
+export const updateUploadingFiles = obj => {
+  const { creditorDetails, nextScreen } = obj
   console.log("update uploading files", creditorDetails)
   const { creditor } = creditorDetails
   const { c_obj } = creditor
@@ -489,15 +481,18 @@ export const updateUploadingFiles = creditorDetails => {
       fileSize: fileObj.fileSize,
     })
   })
-  createFileDetails(fileDetailsArray)
+  const obj_1 = { fileDetailsArray, nextScreen }
+  createFileDetails(obj_1)
 }
 //  14th api
-export const createFileDetails = fileDetails => {
-  console.log("fileDetails obj", fileDetails)
+export const createFileDetails = obj => {
+  const { fileDetailsArray, nextScreen } = obj
+  console.log("fileDetails obj", fileDetailsArray)
   axios
-    .post(urls.fileDetails, fileDetails)
+    .post(urls.fileDetails, fileDetailsArray)
     .then(res => {
       console.log("create FileDetails Api response", res)
+      nextScreen()
     })
     .catch(err => console.log("err", err))
 }

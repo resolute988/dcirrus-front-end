@@ -24,7 +24,8 @@ const UploadScreen = props => {
       creditorDetails.creditor.u_status === true
     ) {
       //  this is the function which will update the files that we have uploaded to our database
-      updateUploadingFiles(creditorDetails)
+      const obj = { creditorDetails, nextScreen }
+      updateUploadingFiles(obj)
       //  have to update the flag again so that files should be uploaded next time
       const { updateCreditorDetails } = creditorDetails
       const { creditor } = creditorDetails

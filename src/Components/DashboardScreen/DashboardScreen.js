@@ -256,6 +256,7 @@ const DashboardScreen = props => {
                               className={style.linkButton}
                               onClick={() => {
                                 window.navigator.clipboard.writeText(specialUrl)
+                                console.log("special url")
                                 setTooltipText(tooltip.afterClick)
                               }}
                               ref={creditorTooltip}

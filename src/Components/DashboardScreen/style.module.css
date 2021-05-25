@@ -18,7 +18,8 @@
   text-transform: none;
 }
 .mainContainer {
-  padding-left: 80px;
+  /* padding-left: 80px;
+   */
   margin-top: 60px;
   min-height: 56vh;
 }
@@ -27,7 +28,7 @@
 }
 .secondRow {
   margin-right: 30px;
-  margin: 50px;
+  margin-bottom: 50px;
 }
 .firstRowFirstColumn {
   color: #4dcfe0;

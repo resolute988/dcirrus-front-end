@@ -318,7 +318,7 @@ export const fileUpload = obj => {
         const obj_1 = {
           results,
           decryptedObject,
-          ...fileDetails,
+          fileDetails,
           nextScreen,
           creditorDetails,
         }

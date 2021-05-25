@@ -283,11 +283,7 @@ export const onConfirmation = obj => {
 export const fileUpload = obj => {
   const { decryptedObject, fileUploadStructure, nextScreen, creditorDetails } =
     obj
-  const { creditor, updateCreditorDetails } = creditorDetails
-  const updateUploadStatus = () => {
-    creditor.u_status = true
-    updateCreditorDetails(creditor)
-  }
+
   axios
     .post(urls.fileUpload, fileUploadStructure, {
       headers: {
@@ -379,7 +375,6 @@ const uploadToAws = obj => {
     obj
   var feedbackArray = []
 
-  console.log("fileDetails", fileDetails)
   results.map((eachUrl, index) => {
     axios
       .put(results[index].attribute3)

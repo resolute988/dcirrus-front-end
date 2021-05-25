@@ -3,7 +3,6 @@ import axios from "axios"
 import auth from "../Authentication/Auth"
 import notification from "../Utlitiy/notification"
 import encryption from "../Utlitiy/encryption"
-import { render } from "react-dom"
 //  ist api
 export const getCaptcha = setCaptcha => {
   axios
@@ -386,8 +385,10 @@ const uploadToAws = obj => {
   var feedbackArray = []
 
   results.map((eachUrl, index) => {
+    // .replace("http", "https")
+
     axios
-      .put(results[index].attribute3.replace("http", "https"))
+      .put(results[index].attribute3)
       .then(res => {
         //  update metaData
         console.log("aws response ok", res)

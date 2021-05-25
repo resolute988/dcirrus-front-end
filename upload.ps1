@@ -3,9 +3,9 @@ function gitPush($message){
 
   # it will build our project
   
-  git add . 
-  git commit -m $message 
-  git push origin master  
+ git add . 
+ git commit -m $message 
+ git push origin master  
 
   npm run build
 

@@ -56,7 +56,13 @@ const Header = props => {
                 )
               })}
 
-              <Item bgColor='black'>
+              <Item
+                bgColor='black'
+                onClick={() => {
+                  auth.logout()
+                  history.push("/")
+                }}
+              >
                 <img src={group} className='mr-3' alt='Log Out' />
                 Log out
               </Item>

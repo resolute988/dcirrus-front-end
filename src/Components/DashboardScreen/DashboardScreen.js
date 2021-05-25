@@ -19,6 +19,7 @@ import Footer from "../FooterComponent/Footer"
 
 import auth from "../Authentication/Auth"
 import { getFolders, createRootFolder, getSubFolders } from "../APIFolder/api"
+import copy from "copy-to-clipboard"
 
 //  this is the middleComponent
 const DashboardScreen = props => {
@@ -173,7 +174,11 @@ const DashboardScreen = props => {
               </Col>
             </Row>
             <Row className={style.secondRow}>
-              <Col xs='12' lg='7' className={style.secondRowFirstColumn}>
+              <Col
+                xs='12'
+                lg={folderSelected === -1 ? "12" : "7"}
+                className={style.secondRowFirstColumn}
+              >
                 {folders
                   .filter(folderObj => folderObj.folderNM.includes(searchValue))
                   .map((obj, index) => {
@@ -255,8 +260,7 @@ const DashboardScreen = props => {
                             <Button
                               className={style.linkButton}
                               onClick={() => {
-                                window.navigator.clipboard.writeText(specialUrl)
-                                console.log("special url")
+                                copy(specialUrl)
                                 setTooltipText(tooltip.afterClick)
                               }}
                               ref={creditorTooltip}

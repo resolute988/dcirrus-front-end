@@ -2,7 +2,7 @@
 const baseURL = "http://dev.dcirrus.info/api.acms/v1/"
 
 //const backend_server = "https://dcirrus.herokuapp.com"
-const backend_server = "http://utility.dcirrus.info:3000/"
+const backend_server = "http://utility.dcirrus.info:3000/api/"
 
 const urls = {
   baseURL,
@@ -18,8 +18,8 @@ const urls = {
   fileUpload: baseURL + "app/unindexgend/0/atc",
   updateMetaData:
     baseURL + "app/unindexdocadd/0/desktop/admDocAddMetaDataServiceAfter",
-  creditorDetails: backend_server + "/creditordetails/create",
-  getCreditorDetails: backend_server + "/creditordetails/",
-  fileDetails: backend_server + "/filedetails/create",
+  creditorDetails: backend_server + "creditordetails/create",
+  getCreditorDetails: backend_server + "creditordetails/",
+  fileDetails: backend_server + "filedetails/create",
 }
 export default urls

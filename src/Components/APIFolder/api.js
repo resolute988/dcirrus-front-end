@@ -381,7 +381,7 @@ const uploadToAws = obj => {
 
   results.map((eachUrl, index) => {
     axios
-      .put(results[index].attribute3.replace("http", "https"))
+      .put(results[index].attribute3)
       .then(res => {
         //  update metaData
         console.log("aws response ok", res)

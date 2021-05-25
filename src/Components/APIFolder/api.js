@@ -391,7 +391,7 @@ const uploadToAws = obj => {
           parentFolderId: results[index].attribute1,
           storageFileName: results[index].attribute2,
           fileName: results[index].attribute2,
-          fileSize: fileDetails.listAttribute5[index].attribute3,
+          fileSize: fileDetails[index].attribute3,
           fileType: results[index].attribute2.split(".")[1],
           status: "A",
           deleteStatus: "",

@@ -379,6 +379,7 @@ const uploadToAws = obj => {
     obj
   var feedbackArray = []
 
+  console.log("fileDetails", fileDetails)
   results.map((eachUrl, index) => {
     axios
       .put(results[index].attribute3)

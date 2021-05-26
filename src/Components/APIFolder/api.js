@@ -303,7 +303,7 @@ export const fileUpload = obj => {
         // so we are taking only new files and the files which were already uploaded have the same url
         //  so no need to call update meta data api
 
-          results = results.filter(obj => obj.attribute4 === "0")
+       //   results = results.filter(obj => obj.attribute4 === "0")
 
         console.log("aws url", results)
 

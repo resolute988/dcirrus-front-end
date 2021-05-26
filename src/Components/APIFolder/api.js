@@ -16,7 +16,7 @@ export const getCaptcha = setCaptcha => {
     .post(urls.captcha)
     .then(res => {
       const { data } = res
-      technicalErrorNotification()
+      technicalErrorNotification(data)
       //  201 code considered success
       if (data && data.messageCode === 201) {
         console.log(data.objectD)
@@ -36,7 +36,7 @@ export const login = (body, loginMethod, redirectToDashboard) => {
       const { data } = res
       console.log("login response", res)
       //  201 code considered success
-      technicalErrorNotification()
+      technicalErrorNotification(data)
       if (data && data.messageCode === 201) {
         const { token, emailId, userId } = data.objectD
         //  store the token in localstorage
@@ -61,7 +61,7 @@ export const getFolders = setFolders => {
     .then(res => {
       const { data } = res
       console.log("get Folders API response", res)
-      technicalErrorNotification()
+      technicalErrorNotification(data)
       //  201 code considered success
       if (data && data.messageCode === 200) {
         const localArray = []
@@ -97,7 +97,7 @@ export const createRootFolder = (folderName, setFolders) => {
     .then(res => {
       const { data } = res
       console.log("create Root Folder Response", res)
-      technicalErrorNotification()
+      technicalErrorNotification(data)
       if (data && data.messageCode === 201) {
         //  if root folder already exist then this mesage
         if (data.message === "FOLDEREXISTS") {
@@ -171,7 +171,7 @@ export const getSubFolders = (obj, setSpecialUrl) => {
     .then(res => {
       const { data } = res
       console.log("get subfolders api Response", res)
-      technicalErrorNotification()
+      technicalErrorNotification(data)
       if (data && data.messageCode === 200) {
         const subfolders = data.object.unIndexFoldersList
         console.log("subfolders response", subfolders)
@@ -237,7 +237,7 @@ export const createCreditorFolder = obj => {
     .then(res => {
       const { data } = res
       console.log("create Creditor Folder Response", res)
-      technicalErrorNotification()
+      technicalErrorNotification(data)
       if (data && data.messageCode === 201) {
         const folderId = data.object.split("#")[0]
         updateFolderId(folderId)
@@ -303,7 +303,7 @@ export const fileUpload = obj => {
     .then(res => {
       const { data } = res
       console.log("fileUpload response", res)
-      technicalErrorNotification()
+      technicalErrorNotification(data)
       //  201 code considered success
       if (data && data.messageCode === 202) {
         var results = []

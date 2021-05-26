@@ -376,18 +376,19 @@ const uploadToAws = obj => {
     obj
     const { creditor, updateCreditorDetails } = creditorDetails
     const u_id = creditor.c_obj.userId
-  
+    const files= creditor.f_obj.files
   var feedbackArray = []
 
   results.map((eachUrl, index) => {
     axios
       .put(results[index].attribute3,
-        null,{
-          headers:{
-            filename:results[index].attribute2,
-            "Content-Length":fileDetails[index].attribute3
-          }
-        }
+       files[index].eachFile
+        // null,{
+        //   headers:{
+        //     filename:results[index].attribute2,
+        //     "Content-Length":fileDetails[index].attribute3
+        //   }
+        // }
         )
       .then(res => {
         //  update metaData

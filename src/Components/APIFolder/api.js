@@ -299,10 +299,11 @@ export const fileUpload = obj => {
         if (data.object !== null) {
           results = [...data.object]
         }
-        //  if files are already uploaded then server return 0 in attribute4
-        //  so we are removing those files from updating to DCirrus platform
+        //  if files are not uploaded then server return 0 for new file in attribute4
+        // so we are taking only new files and the files which were already uploaded have the same url
+        //  so no need to call update meta data api
 
-        //  results = results.filter(obj => obj.attribute4 === "0")
+          results = results.filter(obj => obj.attribute4 === "0")
 
         console.log("aws url", results)
 

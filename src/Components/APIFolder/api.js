@@ -373,16 +373,26 @@ export const createCreditorDetails = (creditor, updateCreditorId) => {
 const uploadToAws = obj => {
   const { results, decryptedObject, fileDetails, nextScreen, creditorDetails } =
     obj
+    const { creditor, updateCreditorDetails } = creditorDetails
+    const u_id = creditor.c_obj.userId
+  
   var feedbackArray = []
 
   results.map((eachUrl, index) => {
     axios
-      .put(results[index].attribute3)
+      .put(results[index].attribute3,
+        null,{
+          headers:{
+            filename:results[index].attribute2,
+            "Content-Length":fileDetails[index].attribute3
+          }
+        }
+        )
       .then(res => {
         //  update metaData
         console.log("aws response ok", res)
         const metaDataObject = {
-          userId: decryptedObject.u_id,
+          userId:u_id,
           folderId: results[index].attribute1,
           parentFolderId: results[index].attribute1,
           storageFileName: results[index].attribute2,

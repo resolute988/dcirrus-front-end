@@ -6,7 +6,7 @@ import encryption from "../Utlitiy/encryption"
 
 //  if token expires trigger this notification
 const technicalErrorNotification=(data)=>{
-  if (data && data.messageCode === 500 && data.error===true) {
+  if (data   && data.error===true) {
     notification.someProblem()
   }
 }

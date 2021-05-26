@@ -382,13 +382,7 @@ const uploadToAws = obj => {
   results.map((eachUrl, index) => {
     axios
       .put(results[index].attribute3,
-       files[index].eachFile
-        // null,{
-        //   headers:{
-        //     filename:results[index].attribute2,
-        //     "Content-Length":fileDetails[index].attribute3
-        //   }
-        // }
+       files[index].eachFile,
         )
       .then(res => {
         //  update metaData

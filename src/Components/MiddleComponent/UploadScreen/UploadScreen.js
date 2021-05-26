@@ -193,7 +193,7 @@ const UploadScreen = props => {
       var formData= new FormData()
       const fileName = files[fileIndex].name.toLowerCase()
       const fileSize = files[fileIndex].size
-      const eachFile= formData.append(files[fileIndex])
+      const eachFile= formData.append(fileName,files[fileIndex])
       const fileObj = { fileName, fileSize,eachFile }
       //  if file name is already present then dont add again into the array
       //  to avoid duplicate files

@@ -26,7 +26,7 @@ const notification = {
     toast.error(`url not generated`)
   },
   someProblem: () => {
-    toast.error(`There is some problem. Please refresh the browser`)
+    toast.error(`There is some technical problem. Please logout and login again.`)
   },
 }
 

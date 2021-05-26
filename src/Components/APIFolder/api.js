@@ -29,6 +29,9 @@ export const login = (body, loginMethod, redirectToDashboard) => {
       const { data } = res
       console.log("login response", res)
       //  201 code considered success
+      if (data && data.messageCode === 500 && data.error===true) {
+        notification.someProblem()
+      }
       if (data && data.messageCode === 201) {
         const { token, emailId, userId } = data.objectD
         //  store the token in localstorage

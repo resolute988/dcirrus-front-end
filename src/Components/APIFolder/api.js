@@ -424,6 +424,18 @@ const uploadToAws = obj => {
         console.log("aws error", err)
       })
   })
+  if (results.length===0 && results.length === feedbackArray.length) {
+    //  an array of results from aws
+    //  it means files are uploaded  or not
+    //  if yes then inserted an object otherwise returns false
+    const obj_1 = {
+      decryptedObject,
+      feedbackArray,
+      nextScreen,
+      creditorDetails,
+    }
+    updateMetaData(obj_1)
+  }
 }
 //  12th api
 export const updateMetaData = obj => {
@@ -436,6 +448,9 @@ export const updateMetaData = obj => {
   }
   if (feedbackArray.length === 0) {
     console.log("update meta data files already uploaded")
+    notification.filesAlreadyUploaded("files")
+    //  also create the files to our database
+    updateUploadStatus()
   } else {
     var metaDataStructure = {
       listAttribute4: feedbackArray,

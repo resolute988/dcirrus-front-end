@@ -16,7 +16,11 @@ const AfterSubmission = props => {
       </Row>
       <Row className={style.thirdRow}>
         <Col>
-          <Button className={style.nextButton} onClick={() => nextScreen()}>
+          <Button className={style.nextButton} onClick={() => {
+           setTimeout(()=>{
+          window.location.reload()
+           },1000)
+           nextScreen()}}>
             FILE ANOTHER CLAIM
           </Button>
         </Col>

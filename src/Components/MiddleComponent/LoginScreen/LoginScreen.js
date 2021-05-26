@@ -129,7 +129,6 @@ const LoginScreen = props => {
         <Row className={style.filingClaim}>Filing claims just</Row>
         <Row className={style.filingClaim}>became easier.</Row>
       </div>
-      <h1>hey</h1>
       <Form
         id={id.form_id}
         className={style.formClass}

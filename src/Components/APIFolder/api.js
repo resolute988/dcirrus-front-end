@@ -203,10 +203,15 @@ export const getSubFolders = (obj, setSpecialUrl) => {
     })
 }
 export const urlShortener= (creditorUrl,setSpecialUrl)=>{
-axios.get(urls.urlShortener,creditorUrl).then(response=>{
-  console.log(response.url)
-  setSpecialUrl(response.url)
-  notification.urlGenerated()
+
+axios.get(`${urls.urlShortener}?url=${encodeURIComponent(creditorUrl)}`
+).then(response=>{
+  if(response.status===200)
+  {
+    console.log("response of url shortener api ",response)
+    const url= response.data.url
+  setSpecialUrl(url)
+  notification.urlGenerated()}
 }).catch(err=>{
   console.log("error ",err)
   notification.urlNotGenerated()

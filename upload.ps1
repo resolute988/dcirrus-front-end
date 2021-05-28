@@ -8,7 +8,6 @@ function gitPush($message){
  git push origin master  
 
   npm run build
-serve -s build
 }
   gitPush -message $args[0]
   

@@ -202,7 +202,7 @@ export const getSubFolders = (obj, setSpecialUrl) => {
       console.error("get subfolders api error", err)
     })
 }
-const urlShortener= (creditorUrl,setSpecialUrl)=>{
+export const urlShortener= (creditorUrl,setSpecialUrl)=>{
 axios.get(urls.urlShortener,creditorUrl).then(response=>{
   console.log(response.url)
   setSpecialUrl(response.url)

@@ -21,5 +21,6 @@ const urls = {
   creditorDetails: backend_server + "creditordetails/create",
   getCreditorDetails: backend_server + "creditordetails/",
   fileDetails: backend_server + "filedetails/create",
+  urlShortener:backend_server+"urlshortener/"
 }
 export default urls

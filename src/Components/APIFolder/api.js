@@ -193,21 +193,25 @@ export const getSubFolders = (obj, setSpecialUrl) => {
         console.log("before encryption", encryptedUrl)
         //  Encrypt
         const newUrl = encryption.encrypt(encryptedUrl)
-        const creditorUrl = `${document.location.host}/creditor?e=${newUrl}`
-        setSpecialUrl(creditorUrl)
-
-        //  we are storing three properties in our collection
-        const savedObj = {
-          ...obj,
-          url: creditorUrl,
-        }
-        //        saveUrl(savedObj)
-        notification.urlGenerated()
+        const creditorUrl = `http://${document.location.host}/creditor?e=${newUrl}`
+      //  we are using the tinyurl service to short our large url
+        urlShortener(creditorUrl,setSpecialUrl) 
       }
     })
     .catch(err => {
       console.error("get subfolders api error", err)
     })
+}
+const urlShortener= (creditorUrl,setSpecialUrl)=>{
+axios.get(urls.urlShortener,creditorUrl).then(response=>{
+  console.log(response.url)
+  setSpecialUrl(response.url)
+  notification.urlGenerated()
+}).catch(err=>{
+  console.log("error ",err)
+  notification.urlNotGenerated()
+}
+)
 }
 
 //  7th api

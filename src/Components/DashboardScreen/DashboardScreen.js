@@ -17,7 +17,7 @@ import close from "../Assets/close_light_bg.png"
 import Header from "../HeaderComponent/Header"
 import Footer from "../FooterComponent/Footer"
 
-]
+
 import auth from "../Authentication/Auth"
 import dateformat from "dateformat"
 

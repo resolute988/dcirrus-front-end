@@ -19,7 +19,7 @@ import Footer from "../FooterComponent/Footer"
 
 
 import auth from "../Authentication/Auth"
-import dateformat from "dateformat"
+import dateFormat from "dateformat"
 
 import { getFolders, createRootFolder, getSubFolders } from "../APIFolder/api"
 import copy from "copy-to-clipboard"

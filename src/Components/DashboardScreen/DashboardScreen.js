@@ -18,7 +18,7 @@ import Header from "../HeaderComponent/Header"
 import Footer from "../FooterComponent/Footer"
 
 import auth from "../Authentication/Auth"
-import { getFolders, createRootFolder, getSubFolders } from "../APIFolder/api"
+import { getFolders, createRootFolder, getSubFolders ,getTotalClaims} from "../APIFolder/api"
 import copy from "copy-to-clipboard"
 import dateFormat from "dateformat"
 
@@ -62,6 +62,7 @@ const DashboardScreen = props => {
     afterClick: "copied...",
   })
   const [tooltipText, setTooltipText] = useState("")
+const [totalClaims,setTotalClaims]= useState({operational_claim:'',financial_claim:''})
 
   return (
     <>
@@ -191,6 +192,8 @@ const DashboardScreen = props => {
                             setFolderSelected(index)
                             setFolderName(obj.folderNM)
                             getSubFolders(obj, setSpecialUrl)
+
+                            getTotalClaims(obj,setTotalClaims)
                           }
                         }}
                       >
@@ -220,11 +223,11 @@ const DashboardScreen = props => {
                     </span>
 
                     <div className={style.claimsReceived}>
-                      Claims Received: 45
+                      Claims Received: {totalClaims.operational_claim+totalClaims.financial_claim}
                     </div>
                     <div className={style.creditorClaims}>
-                      <span>Operational Creditor Claims: 20</span> <br />
-                      <span>Financial Creditor Claims: 25</span>
+                      <span>Operational Creditor Claims: {totalClaims.operational_claim}</span> <br />
+                      <span>Financial Creditor Claims: {totalClaims.financial_claim}</span>
                     </div>
                     <div className='mb-3'>
                       <div className={style.linkBlock}>

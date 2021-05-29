@@ -534,3 +534,17 @@ export const createFileDetails = obj => {
     })
     .catch(err => console.log("err", err))
 }
+
+
+export const getTotalClaims = (obj,setTotalClaims) => {
+  const { folderId, userId } = obj
+  console.log("rp username and folder id",obj)
+  const request= {user_id:userId,folder_id:folderId}
+  axios
+    .get(urls.totalClaims, request)
+    .then(res => {
+      console.log("get total claims Api response", res)
+      setTotalClaims(res[0])
+    })
+    .catch(err => console.log("err", err))
+}

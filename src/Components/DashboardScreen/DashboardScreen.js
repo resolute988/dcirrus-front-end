@@ -24,11 +24,6 @@ import copy from "copy-to-clipboard"
 //  this is the middleComponent
 const DashboardScreen = props => {
   const list = [
-    { folderNM: "folder-1 folder-3" },
-    { folderNM: "folder-2" },
-    { folderNM: "folder-3 folder-3" },
-    { folderNM: "folder-4" },
-    { folderNM: "folder-5 folder-3" },
   ]
   const [folders, setFolders] = useState([])
 
@@ -220,7 +215,7 @@ const DashboardScreen = props => {
                     <hr className='mb-2' />
 
                     <span className={style.folderCreationDate}>
-                      Created on 30th March, 2021
+                      {dateFormat(folders[folderSelected].fileCreatedDate, "dS mmmm, yyyy ")}
                     </span>
 
                     <div className={style.claimsReceived}>

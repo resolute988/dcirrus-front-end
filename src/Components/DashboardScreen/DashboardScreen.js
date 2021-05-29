@@ -62,7 +62,7 @@ const DashboardScreen = props => {
     afterClick: "copied...",
   })
   const [tooltipText, setTooltipText] = useState("")
-const [totalClaims,setTotalClaims]= useState({operational_claim:'',financial_claim:''})
+const [totalClaims,setTotalClaims]= useState({'operational_claim':0,'financial_claim':0})
 
   return (
     <>

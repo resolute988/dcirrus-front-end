@@ -77,11 +77,12 @@ const Middle = props => {
     //  Decrypt
     const decryptedObject = encryption.decrypt(encryptedUrl)
     const userId = { userId: decryptedObject.uId }
-
-    setFirstScreen({
+    const folderId= {folderId:decryptedObject.folderId}
+      setFirstScreen({
       ...firstScreen,
       ...creditor_claim,
       ...userId,
+      ...folderId
     })
   }
   useEffect(() => {

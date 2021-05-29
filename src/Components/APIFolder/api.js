@@ -189,6 +189,7 @@ export const getSubFolders = (obj, setSpecialUrl) => {
           u_name: auth.getUsername(),
           operational: o_obj,
           financial: f_obj,
+          folderId:obj.folderId
         }
         console.log("before encryption", encryptedUrl)
         //  Encrypt
@@ -223,10 +224,10 @@ axios.get(`${urls.urlShortener}?url=${encodeURIComponent(creditorUrl)}`
 export const createCreditorFolder = obj => {
   const { creditorDetails, decryptedObject, showModal } = obj
   const { creditor, updateCreditorDetails } = creditorDetails
-  const updateFolderId = folderId => {
-    creditor.c_obj.folderId = folderId
-    updateCreditorDetails(creditor)
-  }
+  // const updateFolderId = folderId => {
+  //   creditor.c_obj.folderId = folderId
+  //   updateCreditorDetails(creditor)
+  // }
 
   const { c_obj } = creditor
   const folderObject = decryptedObject[c_obj.creditor_claim]
@@ -249,7 +250,7 @@ export const createCreditorFolder = obj => {
       technicalErrorNotification(data)
       if (data && data.messageCode === 201) {
         const folderId = data.object.split("#")[0]
-        updateFolderId(folderId)
+//        updateFolderId(folderId)
         const folderExist = data.message === "FOLDEREXISTS"
         showModal(folderExist)
       }

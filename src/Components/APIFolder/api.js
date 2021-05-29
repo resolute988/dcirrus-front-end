@@ -66,8 +66,8 @@ export const getFolders = setFolders => {
       if (data && data.messageCode === 200) {
         const localArray = []
         data.object.map(obj => {
-          const { folderId, folderNM,fileCreatedDate } = obj
-          localArray.push({ folderId, folderNM ,fileCreatedDate})
+          const { folderId, folderNM,fileCreatedDate,userId } = obj
+          localArray.push({ folderId, folderNM ,fileCreatedDate,userId})
         })
         setFolders(localArray)
       }

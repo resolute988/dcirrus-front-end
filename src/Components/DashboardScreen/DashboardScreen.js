@@ -17,12 +17,10 @@ import close from "../Assets/close_light_bg.png"
 import Header from "../HeaderComponent/Header"
 import Footer from "../FooterComponent/Footer"
 
-
 import auth from "../Authentication/Auth"
-import dateFormat from "dateformat"
-
 import { getFolders, createRootFolder, getSubFolders } from "../APIFolder/api"
 import copy from "copy-to-clipboard"
+import dateFormat from "dateformat"
 
 //  this is the middleComponent
 const DashboardScreen = props => {
@@ -218,7 +216,7 @@ const DashboardScreen = props => {
                     <hr className='mb-2' />
 
                     <span className={style.folderCreationDate}>
-                      {dateFormat(folders[folderSelected].fileCreatedDate, "dS mmmm, yyyy ")}
+                      Created on {dateFormat(folders[folderSelected].fileCreatedDate, "dS mmmm, yyyy ")}
                     </span>
 
                     <div className={style.claimsReceived}>

@@ -28,6 +28,9 @@ const notification = {
   someProblem: () => {
     toast.error(`There is some technical problem. Please logout and login again.`)
   },
+  captchaNotMatched:()=>{
+    toast.error(`Captcha not matched. Try again`)
+  }
 }
 
 export default notification

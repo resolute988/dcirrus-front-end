@@ -5,7 +5,7 @@ import close from "../../Assets/close.png"
 import dcirrus from "../../Assets/dcirrus.png"
 import React, { useState, useEffect } from "react"
 import OtpInput from "react-otp-input"
-import { getCaptcha,createCreditorDetails, getCreditorDetails,captchaGeneration } from "../../APIFolder/api"
+import { getCaptcha,createCreditorDetails, getCreditorDetails,captchaGeneration,captchaVerification } from "../../APIFolder/api"
 
 import encryption from "../../Utlitiy/encryption"
 
@@ -157,17 +157,23 @@ const Middle = props => {
       updateCreditorDetails(creditor)
       //  if everything is alright we are opening the model for otp verification
       //  before opening the modal we have to reset the values
-      setOtpCode("")
-      setOtpVerification(true)
-
-      handleShow()
-      //  this function focuses on the first input element
-      autoFocus()
+const captcha= firstScreen.captcha
+const obj={captcha,openModal}
+      captchaVerification(obj)
+     
       //  we have to call our database api to check whether current creditor
       //  is present or not if yes then save their id
       //  we are resetting the form
       //      resetForm()
     }
+  }
+  const openModal= ()=>{
+    setOtpCode("")
+    setOtpVerification(true)
+
+    handleShow()
+    //  this function focuses on the first input element
+    autoFocus()
   }
   const formSubmission = e => {
     e.preventDefault()

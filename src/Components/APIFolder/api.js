@@ -554,3 +554,17 @@ export const captchaGeneration= (setCaptchaImage)=>{
   }).catch(err=>console.log("error ",err))
 }
 
+export const captchaVerification= (obj)=>{
+  const {captcha,openModal}= obj
+  const body={captcha:captcha}
+  axios.post(urls.captchaVerfication,body).then(res=>{
+    const result= res.data.response
+    console.log("result",result)
+if(result)
+{
+  openModal()
+}else{
+notification.captchaNotMatched()
+}
+  }).catch(err=>console.log("error ",err))
+}

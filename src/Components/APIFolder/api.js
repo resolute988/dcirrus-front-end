@@ -547,3 +547,10 @@ export const getTotalClaims = (obj,setTotalClaims) => {
     })
     .catch(err => console.log("err", err))
 }
+export const captchaGeneration= (setCaptchaImage)=>{
+  axios.get(urls.captchaGeneration).then(res=>{
+    const image= res.data
+    setCaptchaImage(image)
+  }).catch(err=>console.log("error ",err))
+}
+

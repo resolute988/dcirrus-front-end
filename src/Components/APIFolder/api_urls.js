@@ -22,6 +22,10 @@ const urls = {
   getCreditorDetails: backend_server + "creditordetails/",
   fileDetails: backend_server + "filedetails/create",
   urlShortener:backend_server+"urlshortener/",
-  totalClaims:backend_server+"totalclaims/"
+  totalClaims:backend_server+"totalclaims/",
+  captchaGeneration:backend_server+"captcha/create",
+  captchaVerfication:backend_server+"captcha/verify",
+  
+
 }
 export default urls

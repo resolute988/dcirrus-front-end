@@ -5,7 +5,7 @@ import close from "../../Assets/close.png"
 import dcirrus from "../../Assets/dcirrus.png"
 import React, { useState, useEffect } from "react"
 import OtpInput from "react-otp-input"
-import { createCreditorDetails, getCreditorDetails } from "../../APIFolder/api"
+import { getCaptcha,createCreditorDetails, getCreditorDetails,captchaGeneration } from "../../APIFolder/api"
 
 import encryption from "../../Utlitiy/encryption"
 
@@ -30,6 +30,7 @@ const Middle = props => {
     email_id: "email_id",
     phone_number: "phone_number",
     creditor_claim: "creditor_claim",
+    captcha: "captcha",
     operational_creditor_claim: "operational_creditor_claim",
     financial_creditor_claim: "financial_creditor_claim",
     form_id: "file_claim",
@@ -121,6 +122,7 @@ const Middle = props => {
       [id.last_name]: last_name,
       [id.email_id]: email_id,
       [id.phone_number]: phone_number,
+      [id.captcha]: captcha,
     } = firstScreen
 
     if (
@@ -137,7 +139,9 @@ const Middle = props => {
       email_id === undefined ||
       email_id === "" ||
       phone_number === undefined ||
-      phone_number === ""
+      phone_number === "" ||
+      captcha === undefined ||
+      captcha === ""
     ) {
       setFormValidationStatus(true)
     } else {
@@ -179,6 +183,12 @@ const Middle = props => {
   const [otpCode, setOtpCode] = useState("")
 
   const [otpVerification, setOtpVerification] = useState(true)
+
+  const [captchaImage, setCaptchaImage] = useState('')
+
+  useEffect(() => {
+    captchaGeneration(setCaptchaImage)
+  }, [])
 
   return (
     <div>
@@ -331,6 +341,27 @@ const Middle = props => {
             </Form.Group>
           </Col>
         </Row>
+        <Row>
+          <Col xs='10'>
+            <Form.Group
+              className={style.formGroup}
+              onChange={handleChange}
+              controlId={id.captcha}
+            >
+              <Form.Label className={style.labelColor}>
+              <div dangerouslySetInnerHTML={{ __html:captchaImage }} />
+              </Form.Label>
+              <Form.Control
+                className={`${
+                  formValidationStatus && !firstScreen[id.captcha] && style.error
+                } ${style.inputColor}`}
+                name={id.captcha}
+                type='text'
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+
         <Row>
           <Col xs='10'>
             <Form.Group className={style.formGroup} onChange={handleChange}>

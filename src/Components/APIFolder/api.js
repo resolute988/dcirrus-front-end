@@ -555,7 +555,7 @@ export const captchaGeneration= (setCaptchaImage)=>{
 }
 
 export const captchaVerification= (obj)=>{
-  const {captcha,openModal}= obj
+  const {captcha,openModal,focusCaptchaField}= obj
   const body={captcha:captcha}
   axios.post(urls.captchaVerfication,body).then(res=>{
     const result= res.data.response
@@ -564,6 +564,8 @@ if(result)
 {
   openModal()
 }else{
+  //  remove field value and get focus on captcha field
+  focusCaptchaField()
 notification.captchaNotMatched()
 }
   }).catch(err=>console.log("error ",err))

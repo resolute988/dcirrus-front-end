@@ -109,6 +109,14 @@ const Middle = props => {
     }, 100)
   }
 
+  const focusCaptchaField = () => {
+    var captchaField = document.getElementById(id.captcha)
+    captchaField.value = ""
+    captchaField.focus()
+    const duplicateFirstScreen = { ...firstScreen }
+    duplicateFirstScreen[id.captcha] = ""
+    setFirstScreen(duplicateFirstScreen)
+  }
   // this state is dedicated to know whether we have to start validation process or not
   const [formValidationStatus, setFormValidationStatus] = useState(false)
   //  it tells us whether validation is started or not
@@ -158,7 +166,7 @@ const Middle = props => {
       //  if everything is alright we are opening the model for otp verification
       //  before opening the modal we have to reset the values
 const captcha= firstScreen.captcha
-const obj={captcha,openModal}
+const obj={captcha,openModal,focusCaptchaField}
       captchaVerification(obj)
      
       //  we have to call our database api to check whether current creditor

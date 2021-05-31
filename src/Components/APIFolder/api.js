@@ -587,7 +587,7 @@ export const otpGeneration= (gmailId)=>{
     }
   }).catch(err=>console.log("error ",err))
 }
-export const otpVerification= (obj)=>{
+export const otpVerificationAPI= (obj)=>{
   const {otp,nextScreen}= obj
   const body={otp:otp}
   console.log("otpVerfication body",obj)

@@ -614,7 +614,7 @@ export const sendEmailTo= (obj)=>{
   const claimant_email = creditor.c_obj.email_id
   const rp_email= creditor.c_obj.rp_email
   const files= creditor.f_obj.files
-  const body={claimant_email:claimant,rp_email:rp_email,files:files  }
+  const body={claimant_email:claimant_email,rp_email:rp_email,files:files  }
   axios.post(urls.sendEmailTo,body).then(res=>{
     console.log("send email to",res.data)
     notification.emailSendSuccessully()

@@ -1,11 +1,13 @@
 import { Row, Col, Button, Container } from "react-bootstrap"
 import style from "./style.module.css"
-import React from "react"
+import React, { useEffect } from "react"
 
 const AfterSubmission = props => {
   //  this is the function to change the screen
-  const { nextScreen } = props
-
+  const { nextScreen, creditorDetails } = props.methods
+useEffect(()=>{
+console.log("success",creditorDetails)
+},[])
   return (
     <Container fluid className={style.mainBlock}>
       <Row className={style.firstRow}>

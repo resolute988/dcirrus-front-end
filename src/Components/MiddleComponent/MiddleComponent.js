@@ -38,7 +38,7 @@ const Middle = props => {
     creditor_detail_screen: <CreditorDetailScreen methods={methods} />,
     upload_screen: <UploadScreen methods={methods} />,
     successfull_submission_screen: (
-      <SuccessfullSubmissionScreen nextScreen={nextScreen} />
+      <SuccessfullSubmissionScreen methods={methods} />
     ),
   }
   const Sidebar = () => {

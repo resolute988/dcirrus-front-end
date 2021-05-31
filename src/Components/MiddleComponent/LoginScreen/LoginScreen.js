@@ -99,15 +99,8 @@ const LoginScreen = props => {
 
       //  api call for login
       console.log("login request", requestBody)
-      //  first parameter represents the body username ,password, identifier and captcha
-      //  second parameters represents the function to store the token in localStorage received from the login api
-      // third parameter is also a function to redirect user to dashboard
-      login(requestBody, auth.login, redirectToDashboard)
-      //      auth.setLogin()
-      //     history.push("/dashboard")
-
-      //  if everything is alright we are opening the model for otp verification
-      //  before opening the modal we have to reset the values
+      const obj={body:requestBody, loginMethod:auth.login, redirectToDashboard}
+      login(obj)
     }
   }
   const formSubmission = e => {

@@ -29,7 +29,8 @@ export const getCaptcha = setCaptcha => {
 }
 
 //  2nd api
-export const login = (body, loginMethod, redirectToDashboard) => {
+export const login = (obj) => {
+  const {body, loginMethod, redirectToDashboard}= obj
   axios
     .post(urls.login, body)
     .then(res => {
@@ -38,9 +39,10 @@ export const login = (body, loginMethod, redirectToDashboard) => {
       //  201 code considered success
       technicalErrorNotification(data)
       if (data && data.messageCode === 201) {
-        const { token, emailId, userId } = data.objectD
+        const { token, emailId, userId ,name} = data.objectD
         //  store the token in localstorage
-        loginMethod({ emailId, token, userId })
+        const obj= { token, rp_email:emailId, rp_id :userId,rp_name:name}
+        loginMethod(obj)
         // redirect user to dashboard screen
         redirectToDashboard()
       }
@@ -185,8 +187,9 @@ export const getSubFolders = (obj, setSpecialUrl) => {
 
         const encryptedUrl = {
           token: auth.getToken(),
-          uId: auth.getUserId(),
-          u_name: auth.getUsername(),
+          rp_id: auth.getRPId(),
+          rp_name: auth.getRPName(),
+          rp_email:auth.getRPEmail(),
           operational: o_obj,
           financial: f_obj,
           folderId:obj.folderId
@@ -377,7 +380,8 @@ export const getCreditorDetails = creditorDetails => {
 }
 //  10th api
 export const createCreditorDetails = (creditor, updateCreditorId) => {
-  const obj = creditor.c_obj
+  var obj = {...creditor.c_obj}
+  delete obj["captcha"]
 
   //  we are removing this field because we dont require
   //  delete obj["creditor_claim"]
@@ -396,7 +400,7 @@ const uploadToAws = obj => {
   const { results, decryptedObject, fileDetails, nextScreen, creditorDetails } =
     obj
     const { creditor, updateCreditorDetails } = creditorDetails
-    const u_id = creditor.c_obj.userId
+    const rp_id = creditor.c_obj.rp_id
     const files= creditor.f_obj.files
   var feedbackArray = []
 
@@ -409,7 +413,7 @@ const uploadToAws = obj => {
         //  update metaData
         console.log("aws response ok", res)
         const metaDataObject = {
-          userId:u_id,
+          userId:rp_id,
           folderId: results[index].attribute1,
           parentFolderId: results[index].attribute1,
           storageFileName: results[index].attribute2,

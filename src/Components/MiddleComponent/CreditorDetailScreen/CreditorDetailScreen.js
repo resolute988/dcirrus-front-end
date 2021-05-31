@@ -77,12 +77,18 @@ const Middle = props => {
     var encryptedUrl = location.search.split("=")[1]
     //  Decrypt
     const decryptedObject = encryption.decrypt(encryptedUrl)
-    const userId = { userId: decryptedObject.uId }
+    console.log('msg',decryptedObject)
+    const rp_id = { rp_id: decryptedObject.rp_id }
+    const rp_email= {rp_email:decryptedObject.rp_email}
+    const rp_name= {rp_name:decryptedObject.rp_name}
+    
     const folderId= {folderId:decryptedObject.folderId}
       setFirstScreen({
       ...firstScreen,
       ...creditor_claim,
-      ...userId,
+      ...rp_id,
+      ...rp_email,
+      ...rp_name,
       ...folderId
     })
   }

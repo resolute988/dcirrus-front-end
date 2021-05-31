@@ -1,16 +1,18 @@
 const RP = {
   token: "token",
-  username: "username",
-  userId: "userId",
-  folderIds: "folderIds",
+  rp_name: "rp_name",
+  rp_id: "rp_id",
+  rp_email:"rp_email"
 }
 
 const auth = {
-  login: ({ emailId: username, token, userId }) => {
-    console.log("log 3", username, token, userId)
+  login: (obj) => {
+    const { token, rp_email, rp_id ,rp_name} = obj
+    
     localStorage.setItem(RP.token, token)
-    localStorage.setItem(RP.username, username)
-    localStorage.setItem(RP.userId, userId)
+    localStorage.setItem(RP.rp_name, rp_name)
+    localStorage.setItem(RP.rp_id, rp_id)
+    localStorage.setItem(RP.rp_email,rp_email)
   },
   logout: () => {
     //  remove all keys stored in local storage
@@ -19,8 +21,8 @@ const auth = {
     })
   },
   getLoginStatus: () => {
-    const login = localStorage.getItem(RP.token)
-    if (login === undefined || login === null || login === "") return false
+    const token = localStorage.getItem(RP.token)
+    if (token === undefined || token === null || token === "") return false
     else return true
   },
   getToken: () => {
@@ -32,31 +34,16 @@ const auth = {
   removeToken: () => {
     localStorage.removeItem(RP.token)
   },
-  getUsername: () => {
-    const username = localStorage.getItem(RP.username)
-    return username
+  getRPName: () => {
+    const name = localStorage.getItem(RP.rp_name)
+    return name
   },
-  setUsername: username => {
-    localStorage.setItem(RP.username, username)
+  getRPId: () => {
+    return localStorage.getItem(RP.rp_id)
   },
-  removeUsername: () => {
-    localStorage.removeItem(RP.username)
-  },
-  getfolderIds: () => {
-    const folderIds = localStorage.getItem(RP.folderIds) || {}
-    return folderIds
-  },
-  setfolderIds: obj => {
-    //    const ids = localStorage.getItem(RP.folderIds) || {}
-    localStorage.setItem(RP.folderIds, JSON.stringify(obj))
-  },
-
-  removefolderIds: () => {
-    localStorage.removeItem(RP.folderIds)
-  },
-  getUserId: () => {
-    return localStorage.getItem(RP.userId)
-  },
+  getRPEmail:()=>{
+    return localStorage.getItem(RP.rp_email)
+  }
 }
 
 export default auth

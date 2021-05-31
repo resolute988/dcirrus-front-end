@@ -578,7 +578,6 @@ notification.captchaNotMatched()
 export const otpGeneration= (gmailId)=>{
 
   const body= {gmail_id:gmailId}
-  console.log("otpVerificaiton",body)
   axios.post(urls.otpGeneration,body).then(res=>{
     console.log("otpGeneration response ",res)
     const result= res.data.response
@@ -586,5 +585,21 @@ export const otpGeneration= (gmailId)=>{
     {
       notification.otpGeneration()
     }
+  }).catch(err=>console.log("error ",err))
+}
+export const otpVerification= (obj)=>{
+  const {otp,nextScreen}= obj
+  const body={otp:otp}
+  console.log("otpVerfication body",obj)
+  axios.post(urls.otpVerfication,body).then(res=>{
+    const result= res.data.response
+    console.log("OTP verfication api response",result)
+if(result)
+{ 
+  notification.otpVerificationSuccess()
+  nextScreen()
+}else{
+  notification.otpVerficationFailed()
+}
   }).catch(err=>console.log("error ",err))
 }

@@ -5,7 +5,7 @@ import close from "../../Assets/close.png"
 import dcirrus from "../../Assets/dcirrus.png"
 import React, { useState, useEffect } from "react"
 import OtpInput from "react-otp-input"
-import { getCaptcha,createCreditorDetails, getCreditorDetails,captchaGeneration,captchaVerification ,otpGeneration} from "../../APIFolder/api"
+import { getCaptcha,createCreditorDetails, getCreditorDetails,captchaGeneration,captchaVerification ,otpGeneration,otpVerification} from "../../APIFolder/api"
 
 import encryption from "../../Utlitiy/encryption"
 
@@ -449,8 +449,9 @@ const obj={captcha,openModal,focusCaptchaField,creditor}
                       className={style.modalSubmitButton}
                       onClick={() => {
                         console.log("otp code is ", otpCode)
-                        if (otpCode === "0000") {
-                          nextScreen()
+                        if (otpCode.length===4) {
+                          const obj={otp:otpCode,nextScreen}  
+                          otpVerification(obj)  
                         } else {
                           setOtpVerification(false)
                         }

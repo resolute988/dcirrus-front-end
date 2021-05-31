@@ -617,7 +617,7 @@ export const sendEmailTo= (obj)=>{
   const body={claimant_email:claimant_email,rp_email:rp_email,files:files  }
   axios.post(urls.sendEmailTo,body).then(res=>{
     console.log("send email to",res.data)
-    notification.emailSendSuccessully()
+    notification.emailSendSuccessfully()
   }).catch(err =>{
     notification.emailSendFailed()
     console.log("err", err)})

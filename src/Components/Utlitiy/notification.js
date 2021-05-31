@@ -41,6 +41,13 @@ const notification = {
   otpVerficationFailed:()=>{
     toast.error(`OTP did not match. Try again`)
   }
+  ,
+  emailSendSuccessfully:()=>{
+    toast.success(`Email has been send to Claimant and Resolution Professional.`)
+  },
+  emailSendFailed:()=>{
+    toast.error(`Email has been failed to send.`},
+  
 }
 
 export default notification

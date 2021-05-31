@@ -395,6 +395,7 @@ export const createCreditorDetails = (creditor, updateCreditorId) => {
     })
     .catch(err => console.log("err", err))
 }
+
 //  11th api
 const uploadToAws = obj => {
   const { results, decryptedObject, fileDetails, nextScreen, creditorDetails } =
@@ -605,4 +606,19 @@ if(result)
   notification.otpVerficationFailed()
 }
   }).catch(err=>console.log("error ",err))
+}
+
+export const sendEmailTo= (obj)=>{
+  const {creditorDetails}=obj
+  const { creditor} = creditorDetails
+  const claimant_email = creditor.c_obj.email_id
+  const rp_email= creditor.c_obj.rp_email
+  const files= creditor.f_obj.files
+  const body={claimant_email:claimant,rp_email:rp_email,files:files  }
+  axios.post(urls.sendEmailTo,body).then(res=>{
+    console.log("send email to",res.data)
+    notification.emailSendSuccessully()
+  }).catch(err =>{
+    notification.emailSendFailed()
+    console.log("err", err)})
 }

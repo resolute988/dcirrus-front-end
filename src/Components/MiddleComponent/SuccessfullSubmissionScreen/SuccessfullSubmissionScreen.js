@@ -1,12 +1,17 @@
 import { Row, Col, Button, Container } from "react-bootstrap"
 import style from "./style.module.css"
 import React, { useEffect } from "react"
+import {sendEmailTo} from "../../APIFolder/api"
+
 
 const AfterSubmission = props => {
   //  this is the function to change the screen
   const { nextScreen, creditorDetails } = props.methods
 useEffect(()=>{
-console.log("success",creditorDetails)
+ //  have to update the flag again so that files should be uploaded next time
+
+  const obj={creditorDetails}
+sendEmailTo(obj)
 },[])
   return (
     <Container fluid className={style.mainBlock}>

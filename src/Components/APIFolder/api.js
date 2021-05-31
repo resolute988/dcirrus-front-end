@@ -518,7 +518,6 @@ export const updateUploadingFiles = obj => {
     fileDetailsArray.push({
       creditorId: c_id,
       formName: form_name,
-      folderId: c_obj.folderId,
       fileName: fileObj.fileName,
       fileSize: fileObj.fileSize,
     })

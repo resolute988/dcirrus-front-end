@@ -201,9 +201,11 @@ const obj={captcha,openModal,focusCaptchaField,creditor}
   const [captchaImage, setCaptchaImage] = useState('')
 
   useEffect(() => {
-    captchaGeneration(setCaptchaImage)
+    refreshCaptcha()
   }, [])
-
+const refreshCaptcha= ()=>{
+  captchaGeneration(setCaptchaImage)
+}
   return (
     <div>
       <Container fluid className=' mr-2'>
@@ -362,7 +364,7 @@ const obj={captcha,openModal,focusCaptchaField,creditor}
               onChange={handleChange}
               controlId={id.captcha}
             >
-              <Form.Label className={style.labelColor}>
+              <Form.Label onClick={()=>refreshCaptcha()} className={style.labelColor}>
               <div dangerouslySetInnerHTML={{ __html:captchaImage }} />
               </Form.Label>
               <Form.Control

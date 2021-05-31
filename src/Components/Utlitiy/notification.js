@@ -46,7 +46,7 @@ const notification = {
     toast.success(`Email has been send to Claimant and Resolution Professional.`)
   },
   emailSendFailed:()=>{
-    toast.error(`Email has been failed to send.`},
+    toast.error(`Email has been failed to send.`)}
   
 }
 

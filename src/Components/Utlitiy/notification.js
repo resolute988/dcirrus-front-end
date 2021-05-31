@@ -1,4 +1,5 @@
 import { toast } from "react-toastify"
+import { otpGeneration } from "../APIFolder/api"
 
 const notification = {
   filesUploaded: fileName => {
@@ -30,6 +31,9 @@ const notification = {
   },
   captchaNotMatched:()=>{
     toast.error(`Captcha not matched. Try again`)
+  },
+  otpGeneration:()=>{
+    toast.success(`OTP has been sent to you Gmail`)
   }
 }
 

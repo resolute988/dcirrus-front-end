@@ -5,7 +5,7 @@ import close from "../../Assets/close.png"
 import dcirrus from "../../Assets/dcirrus.png"
 import React, { useState, useEffect } from "react"
 import OtpInput from "react-otp-input"
-import { getCaptcha,createCreditorDetails, getCreditorDetails,captchaGeneration,captchaVerification } from "../../APIFolder/api"
+import { getCaptcha,createCreditorDetails, getCreditorDetails,captchaGeneration,captchaVerification ,otpGeneration} from "../../APIFolder/api"
 
 import encryption from "../../Utlitiy/encryption"
 
@@ -166,7 +166,7 @@ const Middle = props => {
       //  if everything is alright we are opening the model for otp verification
       //  before opening the modal we have to reset the values
 const captcha= firstScreen.captcha
-const obj={captcha,openModal,focusCaptchaField}
+const obj={captcha,openModal,focusCaptchaField,creditor}
       captchaVerification(obj)
      
       //  we have to call our database api to check whether current creditor

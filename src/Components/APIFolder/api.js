@@ -555,18 +555,36 @@ export const captchaGeneration= (setCaptchaImage)=>{
 }
 
 export const captchaVerification= (obj)=>{
-  const {captcha,openModal,focusCaptchaField}= obj
+  const {captcha,openModal,focusCaptchaField,creditor}= obj
+  const gmail_id=creditor.c_obj.email_id
   const body={captcha:captcha}
   axios.post(urls.captchaVerfication,body).then(res=>{
     const result= res.data.response
     console.log("result",result)
 if(result)
-{
-  openModal()
+{ 
+  //  captcha matches trigger the otpGeneration api for given user
+otpGeneration(gmail_id)  
+setTimeout(()=> 
+openModal(),1000)
 }else{
   //  remove field value and get focus on captcha field
   focusCaptchaField()
 notification.captchaNotMatched()
 }
+  }).catch(err=>console.log("error ",err))
+}
+
+export const otpGeneration= (gmailId)=>{
+
+  const body= {gmail_id:gmailId}
+  console.log("otpVerificaiton",body)
+  axios.post(urls.otpGeneration,body).then(res=>{
+    console.log("otpGeneration response ",res)
+    const result= res.data.response
+    if(result)
+    {
+      notification.otpGeneration()
+    }
   }).catch(err=>console.log("error ",err))
 }

@@ -25,7 +25,7 @@ const urls = {
   totalClaims:backend_server+"totalclaims/",
   captchaGeneration:backend_server+"captcha/create",
   captchaVerfication:backend_server+"captcha/verify",
-  
-
+  otpGeneration:backend_server+"otp/create",
+  otpVerfication:backend_server+"otp/verify",
 }
 export default urls

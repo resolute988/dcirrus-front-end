@@ -617,9 +617,14 @@ var files=[]
    files.push(obj.eachFile)
  })
 
-  const body={email:claimant_email,files:files  }
-
-  axios.post(urls.sendEmailToClaimant,body).then(res=>{
+ var form_data= new FormData()
+ form_data.append("email",claimant_email)
+ files.map(obj=>{
+  form_data.append("name",obj.name)
+  form_data.append("file",obj) 
+ })
+ 
+  axios.post(urls.sendEmailToClaimant,form_data).then(res=>{
     console.log("send emailToClaimant api response",res.data)
     notification.emailSendClaimantSuccess()
   }).catch(err =>{

@@ -612,7 +612,11 @@ export const sendEmailToClaimant= (obj)=>{
   const {creditorDetails}=obj
   const { creditor} = creditorDetails
   const claimant_email = creditor.c_obj.email_id
-  const files= creditor.f_obj.files
+var files=[]
+ creditor.f_obj.files.map(obj=>{
+   files.push(obj.eachFile)
+ })
+
   const body={email:claimant_email,files:files  }
 
   axios.post(urls.sendEmailToClaimant,body).then(res=>{
@@ -626,7 +630,11 @@ export const sendEmailToRP= (obj)=>{
   const {creditorDetails}=obj
   const { creditor} = creditorDetails
   const rp_email= creditor.c_obj.rp_email
-  const files= creditor.f_obj.files
+  var files=[]
+ creditor.f_obj.files.map(obj=>{
+   files.push(obj.eachFile)
+ })
+
   const body={email:rp_email,files:files  }
   
   axios.post(urls.sendEmailToRP,body).then(res=>{

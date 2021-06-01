@@ -27,6 +27,8 @@ const urls = {
   captchaVerfication:backend_server+"captcha/verify",
   otpGeneration:backend_server+"otp/create",
   otpVerfication:backend_server+"otp/verify",
-  sendEmailTo:backend_server+ "send"
+  sendEmailToClaimant:backend_server+ "send/claimant",
+  sendEmailToRP:backend_server+ "send/rp",
+  
 }
 export default urls

@@ -608,17 +608,31 @@ if(result)
   }).catch(err=>console.log("error ",err))
 }
 
-export const sendEmailTo= (obj)=>{
+export const sendEmailToClaimant= (obj)=>{
   const {creditorDetails}=obj
   const { creditor} = creditorDetails
   const claimant_email = creditor.c_obj.email_id
+  const files= creditor.f_obj.files
+  const body={email:claimant_email,files:files  }
+
+  axios.post(urls.sendEmailToClaimant,body).then(res=>{
+    console.log("send emailToClaimant api response",res.data)
+    notification.emailSendClaimantSuccess()
+  }).catch(err =>{
+    notification.emailSendClaimantFailed()
+    console.log("err", err)})
+}
+export const sendEmailToRP= (obj)=>{
+  const {creditorDetails}=obj
+  const { creditor} = creditorDetails
   const rp_email= creditor.c_obj.rp_email
   const files= creditor.f_obj.files
-  const body={claimant_email:claimant_email,rp_email:rp_email,files:files  }
-  axios.post(urls.sendEmailTo,body).then(res=>{
-    console.log("send emailTo api response",res.data)
-    notification.emailSendSuccessfully()
+  const body={email:rp_email,files:files  }
+  
+  axios.post(urls.sendEmailToRP,body).then(res=>{
+    console.log("send emailToRP api response",res.data)
+    notification.emailSendRPSuccess()
   }).catch(err =>{
-    notification.emailSendFailed()
+    notification.emailSendRPFailed()
     console.log("err", err)})
 }

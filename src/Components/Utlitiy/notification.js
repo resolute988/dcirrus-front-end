@@ -42,11 +42,17 @@ const notification = {
     toast.error(`OTP did not match. Try again`)
   }
   ,
-  emailSendSuccessfully:()=>{
-    toast.success(`Email has been send to Claimant and Resolution Professional.`)
+  emailSendClaimantSuccess:()=>{
+    toast.success(`Email has been sent to Claimant.`)
   },
-  emailSendFailed:()=>{
-    toast.error(`Email has been failed to send.`)}
+  emailSendClaimantFailed:()=>{
+    toast.error(`Email has been failed to send to the Claimant`)}
+    ,
+    emailSendRPSuccess:()=>{
+      toast.success(`Email has been sent to Resolution Professional.`)
+    },
+    emailSendRPFailed:()=>{
+      toast.error(`Email has been failed to send to the RP`)}
   
 }
 

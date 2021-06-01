@@ -637,7 +637,7 @@ export const sendEmailToRP= (obj)=>{
   const rp_email= creditor.c_obj.rp_email
   var files=[]
  creditor.f_obj.files.map(obj=>{
-   files.push(obj.eachFile)
+   files.push(obj.fileName)
  })
 
   const body={email:rp_email,files:files  }

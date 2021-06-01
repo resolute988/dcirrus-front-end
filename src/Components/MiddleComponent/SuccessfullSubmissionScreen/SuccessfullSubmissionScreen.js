@@ -26,7 +26,7 @@ sendEmailToRP(obj)
           <Button className={style.nextButton} onClick={() => {
            setTimeout(()=>{
           window.location.reload()
-           },1000)
+           },500)
            nextScreen()}}>
             FILE ANOTHER CLAIM
           </Button>

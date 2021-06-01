@@ -207,7 +207,8 @@ const obj={captcha,openModal,focusCaptchaField,creditor}
   const [captchaImage, setCaptchaImage] = useState('')
 
   useEffect(() => {
-    refreshCaptcha()
+    setTimeout(()=>
+    refreshCaptcha(),1000)
   }, [])
 const refreshCaptcha= ()=>{
   captchaGeneration(setCaptchaImage)

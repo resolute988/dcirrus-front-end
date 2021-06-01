@@ -30,7 +30,7 @@ const notification = {
     toast.error(`There is some technical problem. Please logout and login again.`)
   },
   captchaNotMatched:()=>{
-    toast.error(`Captcha not matched. Try again`)
+    toast.error(`Captcha not matched. Click on Captcha.`)
   },
   otpGeneration:()=>{
     toast.success(`OTP has been sent to you Email Id.`)

@@ -99,6 +99,19 @@ const UploadScreen = props => {
     duplicateUser[id.creditor] = ""
     setSecondScreen(duplicateUser)
   }
+const removeDuplicateObjects= (d_files)=>{
+  var u_files_obj= {}
+  //  we are taking filename as a key
+  d_files.map(obj=>{
+      u_files_obj[obj.fileName]=obj
+  })
+  var u_files_array=[]
+  Object.keys(u_files_obj).map(key=>{
+    u_files_array.push(u_files_obj[key])
+  })
+return u_files_array
+}
+
   //  this is the place where real validation happens
   const validate = () => {
     const {
@@ -140,7 +153,10 @@ const UploadScreen = props => {
       creditor.c_obj[id.amount_admitted] = amount_admitted
 
       creditor.f_obj.form_name = form_name
-      creditor.f_obj.files = [...uploadedForms, ...formAttachments]
+       var d_files=[...uploadedForms, ...formAttachments]
+
+      
+   creditor.f_obj.files =removeDuplicateObjects(d_files)
       updateCreditorDetails(creditor)
       console.log(
         "these are the information of creditor after validation",

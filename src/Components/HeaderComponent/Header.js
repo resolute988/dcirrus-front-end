@@ -26,7 +26,21 @@ const Header = props => {
   const { login } = props
   const history = useHistory()
   const [isSidebarOpen, setSidebarOpen] = useState(false)
-  const items = [" CONTACT US", "NOTIFICATIONS", "  RP PORTAL"]
+  const items = [
+    {
+    name:"DRIVE",
+    click:()=>{ window.open("http://dev.dcirrus.info/appnew/drive.html", "new_tab")}
+  },
+  {
+    name:"EXPORT",
+    click:()=>{ }
+  },
+  
+  {
+    name: "RP PORTAL",
+    click:()=>{}}
+]
+
   return (
     <Container fluid>
       <Row className={style.navbar}>
@@ -42,16 +56,13 @@ const Header = props => {
               isCollapsed={!isSidebarOpen}
               classes={isSidebarOpen ? style.sidebarOpen : style.sidebarClose}
             >
-              {items.map((item, index) => {
+              {items.map((obj, index) => {
                 return (
-                  <Item bgColor='black'>
-                    {true ? (
+                  <Item bgColor='black' onClick={obj.click}>
+                   
                       <Button variant='secondary' block>
-                        {item}
+                        {obj.name}
                       </Button>
-                    ) : (
-                      item
-                    )}
                   </Item>
                 )
               })}
@@ -90,11 +101,12 @@ const Header = props => {
         {/*  for larger screens */}
         {login ? (
           <div className={style.rightSideBar}>
-            <Link to='#' className={style.contactUs}>
-              CONTACT US
-            </Link>
-            <Link>
-              <img src={notification} alt='' />
+            <a href="http://dev.dcirrus.info/appnew/drive.html" target="new_tab" className={style.contactUs}>
+              DRIVE 
+            </a>
+            
+            <Link  className={style.contactUs}>
+             EXPORT 
             </Link>
 
             <Link className={` ${style.rpPortal}`}>

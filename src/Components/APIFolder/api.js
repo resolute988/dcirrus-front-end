@@ -208,8 +208,11 @@ export const getSubFolders = (obj, setSpecialUrl) => {
 }
 export const urlShortener= (creditorUrl,setSpecialUrl)=>{
 
-axios.get(`${urls.urlShortener}?url=${encodeURIComponent(creditorUrl)}`
-).then(response=>{
+// axios.get(`${urls.urlShortener}?url=${encodeURIComponent(creditorUrl)}`
+// )
+const body={url:creditorUrl}
+axios.post(urls.urlShortener,body)
+.then(response=>{
   if(response.status===200)
   {
     console.log("response of url shortener api ",response)

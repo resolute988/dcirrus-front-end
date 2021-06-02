@@ -546,10 +546,11 @@ export const createFileDetails = obj => {
 
 
 export const getTotalClaims = (obj,setTotalClaims) => {
-  const { folderId, userId } = obj
+  const { folderId:rootFolderId, userId:rp_id } = obj
   console.log("rp username and folder id",obj)
+  const body= {rootFolderId,rp_id}
   axios
-    .get(`${urls.totalClaims}?user_id=${userId}&folder_id=${folderId}`)
+    .post(urls.totalClaims,body)
     .then(res => {
       console.log("get total claims Api response", res)
       setTotalClaims(res.data)

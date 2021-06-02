@@ -1,9 +1,8 @@
 //  base URL
-// const baseURL = "http://dev.dcirrus.info/api.acms/v1/"
- const baseURL = "https://dcirrus.co.in/api.acms/v1/"
+ const baseURL = "http://dev.dcirrus.info/api.acms/v1/"
+// const baseURL = "https://dcirrus.co.in/api.acms/v1/"
 
-//const backend_server = "https://dcirrus.herokuapp.com"
-const backend_server = "http://utility.dcirrus.info/api/"
+const backend_server = "http://utility.dcirrus.info:3000/api/"
 
 const urls = {
   baseURL,

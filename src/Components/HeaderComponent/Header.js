@@ -22,6 +22,9 @@ import {
   Item,
   Toggler,
 } from "react-sidebar-ui"
+import {exportLogs} from "../APIFolder/api"
+import file from "../Assets/creditor.xlsx"
+
 const Header = props => {
   const { login } = props
   const history = useHistory()
@@ -33,7 +36,9 @@ const Header = props => {
   },
   {
     name:"EXPORT",
-    click:()=>{ }
+    click:()=>{
+      //  this api will fetch details from database and will create a excel sheet 
+      exportLogs() }
   },
   
   {
@@ -104,11 +109,13 @@ const Header = props => {
             <a href="http://dev.dcirrus.info/appnew/drive.html" target="new_tab" className={style.contactUs}>
               DRIVE 
             </a>
-            
-            <Link to="/" className={style.contactUs}>
+            <a href={file} download="creditor_details" target='_blank'>
+            <Button size="lg" disabled={!auth.isRootFolderSelected()} onClick={()=>{
+//              exportLogs()
+  }}>
              EXPORT 
-            </Link>
-
+            </Button>
+</a>
             <Link className={` ${style.rpPortal}`}>
               <img src={face} alt='' />
               <DropdownButton

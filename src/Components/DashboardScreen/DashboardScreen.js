@@ -30,6 +30,7 @@ const DashboardScreen = props => {
 
   useEffect(() => {
     getFolders(setFolders)
+    auth.removeRootFolderId()
   }, [])
 
   //  to track the selected folder

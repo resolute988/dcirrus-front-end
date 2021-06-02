@@ -29,6 +29,7 @@ const urls = {
   otpVerfication:backend_server+"otp/verify",
   sendEmailToClaimant:backend_server+ "send/claimant",
   sendEmailToRP:backend_server+ "send/rp",
+  exportlogs:backend_server+"exportlogs"
   
 }
 export default urls

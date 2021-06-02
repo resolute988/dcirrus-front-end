@@ -196,6 +196,7 @@ export const getSubFolders = (obj, setSpecialUrl) => {
           financial: f_obj,
           rootFolderId:obj.folderId
         }
+        auth.setRootFolderId(obj.folderId)
         console.log("before encryption", encryptedUrl)
         //  Encrypt
         const newUrl = encryption.encrypt(encryptedUrl)
@@ -674,4 +675,13 @@ export const sendEmailToRP= (obj)=>{
   }).catch(err =>{
     notification.emailSendRPFailed()
     console.log("err", err)})
+}
+export  const exportLogs= ()=>{
+  const body= {rp_id:auth.getRPId(),rootFolderId:auth.getRootFolderId()}
+  axios.post(urls.exportlogs,body).then(res=>{
+    console.log("export api response",res.data)
+    
+  }).catch(err =>{
+    console.log("err", err)})
+
 }

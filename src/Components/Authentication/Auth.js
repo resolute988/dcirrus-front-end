@@ -2,7 +2,8 @@ const RP = {
   token: "token",
   rp_name: "rp_name",
   rp_id: "rp_id",
-  rp_email:"rp_email"
+  rp_email:"rp_email",
+  rootFolderId:"rootFolderId"
 }
 
 const auth = {
@@ -43,6 +44,20 @@ const auth = {
   },
   getRPEmail:()=>{
     return localStorage.getItem(RP.rp_email)
+  },
+  setRootFolderId:(rootFolderId)=>{
+    localStorage.setItem(RP.rootFolderId,rootFolderId)
+  },
+  isRootFolderSelected:()=>{
+    const rootFolderId = localStorage.getItem(RP.rootFolderId)
+    if (rootFolderId === undefined || rootFolderId === null || rootFolderId === "") return false
+    else return true
+  },
+  getRootFolderId:()=>{
+   return  localStorage.getItem(RP.rootFolderId)
+  },
+  removeRootFolderId:()=>{
+    localStorage.removeItem(RP.rootFolderId)
   }
 }
 

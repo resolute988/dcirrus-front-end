@@ -572,6 +572,7 @@ export const captchaGeneration= (setCaptchaImage)=>{
 
 export const captchaVerification= (obj)=>{
   const {captcha,openModal,focusCaptchaField,creditorDetails}= obj
+  const {creditor,updateCreditorDetails}= creditorDetails
   
   const gmail_id=creditor.c_obj.email_id
   const body={captcha:captcha}

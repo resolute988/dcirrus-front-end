@@ -64,7 +64,7 @@ export const getFolders = setFolders => {
       const { data } = res
       console.log("get Folders API response", res)
       technicalErrorNotification(data)
-      //  201 code considered success
+      //  200 code considered success
       if (data && data.messageCode === 200) {
         const localArray = []
         data.object.map(obj => {
@@ -192,7 +192,7 @@ export const getSubFolders = (obj, setSpecialUrl) => {
           rp_email:auth.getRPEmail(),
           operational: o_obj,
           financial: f_obj,
-          folderId:obj.folderId
+          rootFolderId:obj.folderId
         }
         console.log("before encryption", encryptedUrl)
         //  Encrypt
@@ -227,10 +227,11 @@ axios.get(`${urls.urlShortener}?url=${encodeURIComponent(creditorUrl)}`
 export const createCreditorFolder = obj => {
   const { creditorDetails, decryptedObject, showModal } = obj
   const { creditor, updateCreditorDetails } = creditorDetails
-  // const updateFolderId = folderId => {
-  //   creditor.c_obj.folderId = folderId
-  //   updateCreditorDetails(creditor)
-  // }
+  
+  const updateCreditorFolderId = creditorFolderId => {
+    creditor.c_obj.creditorFolderId = creditorFolderId
+    updateCreditorDetails(creditor)
+  }
 
   const { c_obj } = creditor
   const folderObject = decryptedObject[c_obj.creditor_claim]
@@ -252,10 +253,10 @@ export const createCreditorFolder = obj => {
       console.log("create Creditor Folder Response", res)
       technicalErrorNotification(data)
       if (data && data.messageCode === 201) {
-        const folderId = data.object.split("#")[0]
-//        updateFolderId(folderId)
-        const folderExist = data.message === "FOLDEREXISTS"
-        showModal(folderExist)
+        const creditorFolderId = data.object.split("#")[0]
+        updateCreditorFolderId(creditorFolderId)
+        const creditorFolderExist = data.message === "FOLDEREXISTS"
+        showModal(creditorFolderExist)
       }
     })
     .catch(err => {
@@ -272,7 +273,7 @@ export const onConfirmation = obj => {
   } = obj
   const { creditor, updateCreditorDetails } = creditorDetails
   const { c_obj, f_obj } = creditor
-  const folderId = c_obj.folderId
+  const creditorFolderId = c_obj.creditorFolderId
   const removeCreditorId = () => {
     creditor.c_id = ""
     updateCreditorDetails(creditor)
@@ -281,7 +282,7 @@ export const onConfirmation = obj => {
     var fileUploadArray = []
     f_obj.files.map(files => {
       fileUploadArray.push({
-        attribute1: folderId,
+        attribute1: creditorFolderId,
         attribute2: files.fileName,
         attribute3: files.fileSize,
       })
@@ -370,7 +371,7 @@ export const getCreditorDetails = creditorDetails => {
       console.log("get CreditorDetails Api response", res)
 
       if (res.data.length === 0) {
-        createCreditorDetails(creditor, updateCreditorId)
+        createCreditorDetails(creditorDetails)
       } else {
         const creditorId = res.data._id
         updateCreditorId(creditor, creditorId)
@@ -379,10 +380,14 @@ export const getCreditorDetails = creditorDetails => {
     .catch(err => console.log("err", err))
 }
 //  10th api
-export const createCreditorDetails = (creditor, updateCreditorId) => {
+export const createCreditorDetails = (creditorDetails) => {
+  const { creditor, updateCreditorDetails } = creditorDetails
   var obj = {...creditor.c_obj}
-  delete obj["captcha"]
 
+  const updateCreditorId = (creditor, creditorId) => {
+    creditor.c_id = creditorId
+    updateCreditorDetails(creditor)
+  }
   //  we are removing this field because we dont require
   //  delete obj["creditor_claim"]
   console.log("creditor", obj)

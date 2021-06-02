@@ -166,9 +166,6 @@ return u_files_array
       const obj = {
         creditorDetails,
         decryptedObject,
-        nextScreen,
-        focusCreditorField,
-        confirmationStatus,
         showModal,
       }
       createCreditorFolder(obj)
@@ -363,8 +360,9 @@ return u_files_array
     }
   }, [confirmationStatus])
 
-  const showModal = folderExist => {
-    if (folderExist === true) {
+  const showModal = creditorFolderExist => {
+    if (creditorFolderExist === true) {
+      //  just empty  the value before opening modal for confirmation
       setConfirmationStatus("")
       handleShow()
     } else {
@@ -372,7 +370,7 @@ return u_files_array
     }
   }
 
-  //  this our main component our entire form
+  //  this is our main component our entire form
   return (
     <Form
       id={id.form_id}

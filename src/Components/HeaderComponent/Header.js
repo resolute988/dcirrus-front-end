@@ -105,7 +105,7 @@ const Header = props => {
               DRIVE 
             </a>
             
-            <Link  className={style.contactUs}>
+            <Link to="/" className={style.contactUs}>
              EXPORT 
             </Link>
 

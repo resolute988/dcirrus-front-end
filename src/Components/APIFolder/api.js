@@ -277,11 +277,14 @@ export const onConfirmation = obj => {
   const { creditor, updateCreditorDetails } = creditorDetails
   const { c_obj, f_obj } = creditor
   const creditorFolderId = c_obj.creditorFolderId
+
+
   const removeCreditorId = () => {
     creditor.c_id = ""
     updateCreditorDetails(creditor)
   }
   if (confirmationStatus === "true") {
+  
     var fileUploadArray = []
     f_obj.files.map(files => {
       fileUploadArray.push({
@@ -568,7 +571,8 @@ export const captchaGeneration= (setCaptchaImage)=>{
 }
 
 export const captchaVerification= (obj)=>{
-  const {captcha,openModal,focusCaptchaField,creditor}= obj
+  const {captcha,openModal,focusCaptchaField,creditorDetails}= obj
+  
   const gmail_id=creditor.c_obj.email_id
   const body={captcha:captcha}
   axios.post(urls.captchaVerfication,body).then(res=>{
@@ -576,6 +580,11 @@ export const captchaVerification= (obj)=>{
     console.log("result",result)
 if(result)
 { 
+  //  we have to remove the captcha field as our captcha verification done
+  const {creditor,updateCreditorDetails}= creditorDetails
+  delete creditor.c_obj.captcha
+  updateCreditorDetails(creditor)
+  
   //  captcha matches trigger the otpGeneration api for given user
 otpGeneration(gmail_id)  
 setTimeout(()=> 

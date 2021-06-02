@@ -82,7 +82,7 @@ const Middle = props => {
     const rp_email= {rp_email:decryptedObject.rp_email}
     const rp_name= {rp_name:decryptedObject.rp_name}
     
-    const rootFolderId= {folderId:decryptedObject.rootFolderId}
+    const rootFolderId= {rootFolderId:decryptedObject.rootFolderId}
       setFirstScreen({
       ...firstScreen,
       ...creditor_claim,
@@ -165,8 +165,6 @@ const Middle = props => {
 
       console.log("these are the form fields after validation", firstScreen)
       const captcha= firstScreen.captcha
-        //  we have to remove the captcha field now we dont require this field
-        delete firstScreen["captcha"]
 
       // here we are saving our creditor information
       const { creditor, updateCreditorDetails } = creditorDetails
@@ -175,7 +173,7 @@ const Middle = props => {
       updateCreditorDetails(creditor)
       //  if everything is alright we are opening the model for otp verification
       //  before opening the modal we have to reset the values
-      const obj={captcha,openModal,focusCaptchaField,creditor}
+      const obj={captcha,openModal,focusCaptchaField,creditorDetails}
       captchaVerification(obj)
      
       //  we have to call our database api to check whether current creditor

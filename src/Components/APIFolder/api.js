@@ -3,6 +3,9 @@ import axios from "axios"
 import auth from "../Authentication/Auth"
 import notification from "../Utlitiy/notification"
 import encryption from "../Utlitiy/encryption"
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+
 
 //  if token expires trigger this notification
 const technicalErrorNotification=(data)=>{
@@ -680,8 +683,26 @@ export  const exportLogs= ()=>{
   const body= {rp_id:auth.getRPId(),rootFolderId:auth.getRootFolderId()}
   axios.post(urls.exportlogs,body).then(res=>{
     console.log("export api response",res.data)
+    const data= res.data.response
+    const fileName = `creditor_details`
     
+  exportToCSV(data,fileName)
   }).catch(err =>{
     console.log("err", err)})
 
 }
+export  const exportToCSV = (csvData, fileName) => {
+    const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    const fileExtension = '.xlsx';
+  
+      const ws = XLSX.utils.json_to_sheet(csvData);
+
+      const wb = { Sheets: { 'data': ws }, SheetNames: ['data'] };
+
+      const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+
+      const data = new Blob([excelBuffer], {type: fileType});
+
+      FileSaver.saveAs(data, fileName + fileExtension);
+
+  }

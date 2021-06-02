@@ -25,6 +25,7 @@ import {
 import {exportLogs} from "../APIFolder/api"
 import file from "../Assets/creditor.xlsx"
 
+
 const Header = props => {
   const { login } = props
   const history = useHistory()
@@ -45,7 +46,15 @@ const Header = props => {
     name: "RP PORTAL",
     click:()=>{}}
 ]
+const fileName = 'TechnicalAdda'
 
+  const viewers = [
+
+    {id:1,name:'sakumar'},
+
+    {id:2,name:'kumar'}
+
+  ]
   return (
     <Container fluid>
       <Row className={style.navbar}>
@@ -109,13 +118,11 @@ const Header = props => {
             <a href="http://dev.dcirrus.info/appnew/drive.html" target="new_tab" className={style.contactUs}>
               DRIVE 
             </a>
-            <a href={file} download="creditor_details" target='_blank'>
             <Button size="lg" disabled={!auth.isRootFolderSelected()} onClick={()=>{
-//              exportLogs()
+              exportLogs()
   }}>
              EXPORT 
             </Button>
-</a>
             <Link className={` ${style.rpPortal}`}>
               <img src={face} alt='' />
               <DropdownButton

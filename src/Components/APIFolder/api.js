@@ -37,7 +37,9 @@ export const getCaptcha = setCaptcha => {
 export const login = (obj) => {
   const {body, loginMethod, redirectToDashboard}= obj
   axios
-    .post(urls.login, body)
+    .post(urls.login, body, {
+      headers:{ withCredentials: true }
+    })
     .then(res => {
       const { data } = res
       console.log("login response", res)

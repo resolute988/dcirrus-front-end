@@ -16,9 +16,7 @@ const technicalErrorNotification=(data)=>{
 //  ist api
 export const getCaptcha = setCaptcha => {
   axios
-    .post(urls.captcha, null,{
-      headers:{ withCredentials: true }
-    })
+    .post(urls.captcha)
     .then(res => {
       const { data } = res
       technicalErrorNotification(data)

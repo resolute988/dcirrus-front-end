@@ -51,7 +51,7 @@ const UploadScreen = props => {
   const id = {
     creditor: "creditor",
     amount_claimed: "amount_claimed",
-    amount_admitted: "amount_admitted",
+//    amount_admitted: "amount_admitted",
     form_name: "form_name",
     form_id: "file_claim",
     uploaded_form: "uploaded_forms",
@@ -117,7 +117,7 @@ return u_files_array
     const {
       [id.creditor]: creditor_name,
       [id.amount_claimed]: amount_claimed,
-      [id.amount_admitted]: amount_admitted,
+    //  [id.amount_admitted]: amount_admitted,
 
       [id.form_name]: form_name,
     } = secondScreen
@@ -125,8 +125,8 @@ return u_files_array
     if (
       amount_claimed === undefined ||
       amount_claimed === "" ||
-      amount_admitted === undefined ||
-      amount_admitted === "" ||
+ //     amount_admitted === undefined ||
+ //     amount_admitted === "" ||
       creditor_name === undefined ||
       creditor_name === "" ||
       form_name === undefined ||
@@ -145,12 +145,12 @@ return u_files_array
 
       const form_name = secondScreen[id.form_name]
       const amount_claimed = secondScreen[id.amount_claimed]
-      const amount_admitted = secondScreen[id.amount_admitted]
+ //     const amount_admitted = secondScreen[id.amount_admitted]
       const creditor_name = secondScreen[id.creditor]
 
       creditor.c_obj[id.creditor] = creditor_name
       creditor.c_obj[id.amount_claimed] = amount_claimed
-      creditor.c_obj[id.amount_admitted] = amount_admitted
+  //    creditor.c_obj[id.amount_admitted] = amount_admitted
 
       creditor.f_obj.form_name = form_name
        var d_files=[...uploadedForms, ...formAttachments]
@@ -400,7 +400,9 @@ return u_files_array
       </Row>
 
       <Row>
-        <Col xs='11' sm='5' md='5' lg='5' xl='5'>
+     {/* </Row> <Col xs='11' sm='5' md='5' lg='5' xl='5'>
+      */}
+        <Col xs='11' sm="7">
           <Form.Group
             onChange={handleChange}
             controlId={id.amount_claimed}
@@ -422,7 +424,8 @@ return u_files_array
             />
           </Form.Group>
         </Col>
-        <Col xs='11' sm='6' md='6' lg='5' xl='5'>
+    
+        {/* <Col xs='11' sm='6' md='6' lg='5' xl='5'>
           <Form.Group
             controlId={id.amount_admitted}
             onChange={handleChange}
@@ -444,6 +447,7 @@ return u_files_array
             />
           </Form.Group>
         </Col>
+     */}
       </Row>
       <Row>
         <Col xs='11' md='7' xl='7'>

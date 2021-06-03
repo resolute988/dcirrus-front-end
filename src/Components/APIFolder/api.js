@@ -27,7 +27,6 @@ export const getCaptcha = setCaptcha => {
     .post(urls.captcha)
     .then(res => {
       const { data } = res
-      technicalErrorNotification(data)
       //  201 code considered success
       if (data && data.messageCode === 201) {
         console.log(data.objectD)
@@ -48,7 +47,6 @@ export const login = (obj) => {
       const { data } = res
       console.log("login response", res)
       //  201 code considered success
-      technicalErrorNotification(data)
       if (data && data.messageCode === 201) {
         const { token, emailId, userId ,name} = data.objectD
         //  store the token in localstorage
@@ -335,7 +333,6 @@ export const fileUpload = obj => {
     .then(res => {
       const { data } = res
       console.log("fileUpload response", res)
-      technicalErrorNotification(data)
       //  201 code considered success
       if (data && data.messageCode === 202) {
         var results = []

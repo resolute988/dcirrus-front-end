@@ -53,7 +53,10 @@ const notification = {
     },
     emailSendRPFailed:()=>{
       toast.error(`Email has been failed to send to the RP`)}
-  
+  ,
+  rootFolderNotSelected:()=>{
+    toast.info(`Folder not selected.`)
+  }
 }
 
 export default notification

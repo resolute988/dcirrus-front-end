@@ -687,6 +687,11 @@ export const sendEmailToRP= (obj)=>{
 }
 export  const exportLogs= ()=>{
   const body= {rp_id:auth.getRPId(),rootFolderId:auth.getRootFolderId()}
+  if(body.rp_id===null)
+  {
+  notification.rootFolderNotSelected()
+  }else{
+    
   axios.post(urls.exportlogs,body).then(res=>{
     console.log("export api response",res.data)
     const data= res.data.response
@@ -695,7 +700,7 @@ export  const exportLogs= ()=>{
   exportToCSV(data,fileName)
   }).catch(err =>{
     console.log("err", err)})
-
+  }
 }
 export  const exportToCSV = (csvData, fileName) => {
     const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';

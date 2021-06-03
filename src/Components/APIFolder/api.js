@@ -6,6 +6,7 @@ import encryption from "../Utlitiy/encryption"
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 
+axios.defaults.withCredentials = true;
 
 //  if token expires trigger this notification
 const technicalErrorNotification=(data)=>{
@@ -35,9 +36,7 @@ export const getCaptcha = setCaptcha => {
 export const login = (obj) => {
   const {body, loginMethod, redirectToDashboard}= obj
   axios
-    .post(urls.login, body, {
-      headers:{ withCredentials: true }
-    })
+    .post(urls.login, body)
     .then(res => {
       const { data } = res
       console.log("login response", res)

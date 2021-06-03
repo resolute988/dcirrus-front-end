@@ -8,10 +8,17 @@ import * as XLSX from 'xlsx';
 
 axios.defaults.withCredentials = true;
 
+//  if there is any problem with the api then just trigger this method
+const logout= ()=>{
+  auth.logout()
+  history.push("/")
+}
+
 //  if token expires trigger this notification
 const technicalErrorNotification=(data)=>{
   if (data   && data.error===true) {
     notification.someProblem()
+    setTimeout(()=>logout(),1000)
   }
 }
 //  ist api

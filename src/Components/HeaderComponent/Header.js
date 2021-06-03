@@ -44,6 +44,10 @@ const Header = props => {
     name: "RP PORTAL",
     click:()=>{}}
 ]
+const logout= ()=>{
+  auth.logout()
+  history.push("/")
+}
   return (
     <Container fluid>
       <Row className={style.navbar}>

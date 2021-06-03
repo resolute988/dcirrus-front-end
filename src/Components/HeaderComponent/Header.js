@@ -23,8 +23,6 @@ import {
   Toggler,
 } from "react-sidebar-ui"
 import {exportLogs} from "../APIFolder/api"
-import file from "../Assets/creditor.xlsx"
-
 
 const Header = props => {
   const { login } = props
@@ -33,7 +31,7 @@ const Header = props => {
   const items = [
     {
     name:"DRIVE",
-    click:()=>{ window.open("http://dev.dcirrus.info/appnew/drive.html", "new_tab")}
+    click:()=>{ window.open("https://dcirrus.co.in/appnew/drive.html", "new_tab")}
   },
   {
     name:"EXPORT",
@@ -46,15 +44,6 @@ const Header = props => {
     name: "RP PORTAL",
     click:()=>{}}
 ]
-const fileName = 'TechnicalAdda'
-
-  const viewers = [
-
-    {id:1,name:'sakumar'},
-
-    {id:2,name:'kumar'}
-
-  ]
   return (
     <Container fluid>
       <Row className={style.navbar}>
@@ -115,7 +104,7 @@ const fileName = 'TechnicalAdda'
         {/*  for larger screens */}
         {login ? (
           <div className={style.rightSideBar}>
-            <a href="http://dev.dcirrus.info/appnew/drive.html" target="new_tab" className={style.contactUs}>
+            <a href="https://dcirrus.co.in/appnew/drive.html" target="new_tab" className={style.contactUs}>
               DRIVE 
             </a>
             <Button size="lg" disabled={!auth.isRootFolderSelected()} onClick={()=>{

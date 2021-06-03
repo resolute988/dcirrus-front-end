@@ -11,7 +11,7 @@ axios.defaults.withCredentials = true;
 //  if there is any problem with the api then just trigger this method
 const logout= ()=>{
   auth.logout()
-  history.push("/")
+  window.location.reload("/")
 }
 
 //  if token expires trigger this notification

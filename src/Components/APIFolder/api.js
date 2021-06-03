@@ -264,7 +264,6 @@ export const createCreditorFolder = obj => {
     .then(res => {
       const { data } = res
       console.log("create Creditor Folder Response", res)
-      technicalErrorNotification(data)
       if (data && data.messageCode === 201) {
         const creditorFolderId = data.object.split("#")[0]
         updateCreditorFolderId(creditorFolderId)
